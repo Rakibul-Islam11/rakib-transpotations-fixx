@@ -14,7 +14,7 @@ const TopMiniNav = () => {
                         I can be a React component, multiple React components, or just some text.
                     </Marquee>
                 </div>
-                <div className="text-blue-600 font-bold text-xl md:text-2xl">
+                <div className="text-blue-600 font-bold text-xl md:text-2xl hidden md:block">
                     <a href="https://www.facebook.com/rakib.al.muqtadir.2024/"><FaFacebookSquare /></a>
                 </div>
             </div>
@@ -24,6 +24,7 @@ const TopMiniNav = () => {
                     I can be a React component, multiple React components, or just some text.
                 </Marquee>
             </div>
+            
         </div>
     );
 };

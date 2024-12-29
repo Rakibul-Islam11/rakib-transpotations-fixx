@@ -1,7 +1,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import imgcentrbrand from '../../assets/imgages/centerbrand.png'
-
+import { FaFacebookSquare } from "react-icons/fa";
 const navigation = [
     { name: 'HOME', href: '#', current: true },
     { name: 'SERVICE', href: '#', current: false },
@@ -32,7 +32,10 @@ export default function NavbarMain() {
 
                             {/* Right: Brand logo */}
                             <div className="flex justify-end items-center">
-                                <img src={imgcentrbrand} alt="Brand Logo" className="w-28" />
+                                <img src={imgcentrbrand} alt="Brand Logo" className="w-36" />
+                            </div>
+                            <div className="text-blue-600 font-bold text-4xl md:text-2xl block md:hidden">
+                                <a href="https://www.facebook.com/rakib.al.muqtadir.2024/"><FaFacebookSquare /></a>
                             </div>
                         </div>
 
