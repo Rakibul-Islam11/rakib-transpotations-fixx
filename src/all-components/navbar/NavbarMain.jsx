@@ -2,13 +2,14 @@ import { Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import imgcentrbrand from '../../assets/imgages/centerbrand.png'
 import { FaFacebookSquare } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 const navigation = [
-    { name: 'HOME', href: '#', current: true },
-    { name: 'SERVICE', href: '#', current: false },
-    { name: 'ABOUT US', href: '#', current: false },
-    { name: 'CANCEL TICKET', href: '#', current: false },
-    { name: 'CONTACT US', href: '#', current: false },
-    { name: 'ALBUM', href: '#', current: false },
+    { name: 'HOME', to: '/', current: true },//এখানে শুধু / মানে homepage বুঝায় roter এ
+    { name: 'SERVICE', to: '/service', current: false },
+    { name: 'ABOUT US', to: '/about-us', current: false },
+    { name: 'CANCEL TICKET', to: '/ticket-cancel', current: false },
+    { name: 'CONTACT US', to: '/contact-us', current: false },
+    { name: 'ALBUM', to: '/album', current: false },
 ]
 
 function classNames(...classes) {
@@ -31,24 +32,22 @@ export default function NavbarMain() {
                             </DisclosureButton>
 
                             {/* Right: Brand logo */}
-                            <div className="flex justify-end items-center">
-                                <img src={imgcentrbrand} alt="Brand Logo" className="w-36" />
+                            <div className="flex justify-end items-center z-50">
+                                <Link to={'/'}>
+                                    <img src={imgcentrbrand} alt="Brand Logo" className="w-36" />
+                                </Link>
                             </div>
                             <div className="text-blue-600 font-bold text-4xl md:text-2xl block md:hidden">
                                 <a href="https://www.facebook.com/rakib.al.muqtadir.2024/"><FaFacebookSquare /></a>
                             </div>
                         </div>
-
-
-
-
                         <div className=" hidden md:flex items-center justify-between w-full px-2 xl:px-12">
                             {/* বাম পাশে প্রথম তিনটি আইটেম */}
                             <div className="first-three-nav flex  xl:space-x-10 items-center">
                                 {navigation.slice(0, 3).map((item) => (
-                                    <a
+                                    <Link
                                         key={item.name}
-                                        href={item.href}
+                                        to={item.to}
                                         className={
                                             item.current
                                                 ? 'bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium'
@@ -56,21 +55,21 @@ export default function NavbarMain() {
                                         }
                                     >
                                         {item.name}
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
 
                             {/* মাঝখানে লোগো */}
-                            <div className="center-brand flex justify-center">
+                            <div className="center-brand flex justify-center z-50">
                                 <img src={imgcentrbrand} alt="Brand Logo" className=" h-48 lg:h-60 w-auto" />
                             </div>
 
                             {/* ডান পাশে বাকি আইটেম */}
                             <div className="remaining-nav flex  xl:space-x-10 items-center">
                                 {navigation.slice(3).map((item) => (
-                                    <a
+                                    <Link
                                         key={item.name}
-                                        href={item.href}
+                                        to={item.to}
                                         className={
                                             item.current
                                                 ? 'bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium'
@@ -78,21 +77,12 @@ export default function NavbarMain() {
                                         }
                                     >
                                         {item.name}
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
                         </div>
-
-
-
-
-
-
                     </div>
                 </div>
-
-
-
 
 
 
@@ -102,7 +92,7 @@ export default function NavbarMain() {
                             <DisclosureButton
                                 key={item.name}
                                 as="a"
-                                href={item.href}
+                                to={item.to}
                                 aria-current={item.current ? 'page' : undefined}
                                 className={classNames(
                                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
