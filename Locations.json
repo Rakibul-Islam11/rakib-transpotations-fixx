@@ -1,0 +1,26 @@
+{
+  "LeavingCities": [
+    { "value": "Select City", "label": "Select City" },
+    { "value": "Dhaka", "label": "Dhaka" },
+    { "value": "Gazipur", "label": "Gazipur" },
+    { "value": "Narayanganj", "label": "Narayanganj" },
+    { "value": "Mymansing", "label": "Mymansing" },
+    { "value": "Rajshahi", "label": "Rajshahi" },
+    { "value": "Pabna", "label": "Pabna" },
+    { "value": "Kushtia", "label": "Kushtia" },
+    { "value": "Natore", "label": "Natore" },
+    { "value": "Chittagong", "label": "Chittagong" }
+  ],
+  "DepurtingCities": [
+    { "value": "Select City", "label": "Select City" },
+    { "value": "Sylhet", "label": "Sylhet" },
+    { "value": "Rangamati", "label": "Rangamati" },
+    { "value": "Khagrachari", "label": "Khagrachari" },
+    { "value": "Bandarban", "label": "Bandarban" },
+    { "value": "Vhola", "label": "Vhola" },
+    { "value": "Sunamganj", "label": "Sunamganj" },
+    { "value": "Norayel", "label": "Norayel" },
+    { "value": "Mirpur", "label": "Mirpur" },
+    { "value": "Nobabgang", "label": "Nobabgang" }
+  ]
+}
