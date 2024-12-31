@@ -6,6 +6,7 @@ import './homepage.css';
 import LocationSlec from './inner-pages/location-selct-section/LocationSlec';
 import AboutCouh from './inner-pages/about-couch-section/AboutCouh';
 import BrandMarque from './inner-pages/brand-marque-section/BrandMarque';
+import FlipCard from './inner-pages/show-details-in-the-card/FlipCard';
 
 const HomePage = () => {
     const reciveApiData = useLoaderData(); // (1)
@@ -102,6 +103,11 @@ const HomePage = () => {
             {/* brand img marqur section component start*/}
             <BrandMarque></BrandMarque>
             {/* brand img marqur section component end*/}
+            {/* flip card section start */}
+            <FlipCard></FlipCard>
+            {/* flip card section end */}
+            
+
         </div>
     );
 };

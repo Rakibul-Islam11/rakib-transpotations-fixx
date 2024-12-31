@@ -7,9 +7,9 @@ import isu from '../../../../assets/branf-img-for-marque/Isuzu.svg'
 import toyo from '../../../../assets/branf-img-for-marque/Toyota.svg'
 const BrandMarque = () => {
     return (
-        <div className="w-[96%] md:w-10/12 mx-auto bg-white">
+        <div className="w-[96%] md:w-10/12 mx-auto bg-white px-1 md:px-2">
             
-            <div className='bg-white pt-8 px-4'>
+            <div className='bg-white pt-8 '>
                 <div>
                     <h1 className='text-slate-500 text-2xl text-center'>With Our Spuer Couches</h1>
                     <Marquee>
