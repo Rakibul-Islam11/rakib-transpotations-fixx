@@ -2,12 +2,14 @@ import { useState } from 'react';
 import vdo from '../../assets/video/covervideoo.mp4';
 import vdocoverimg from '../../assets/imgages/untilvideocover.png';
 import { useLoaderData } from 'react-router-dom';
-import LocationSlec from './inner-pages/LocationSlec';
 import './homepage.css';
+import LocationSlec from './inner-pages/location-selct-section/LocationSlec';
+import AboutCouh from './inner-pages/about-couch-section/AboutCouh';
+import BrandMarque from './inner-pages/brand-marque-section/BrandMarque';
 
 const HomePage = () => {
     const reciveApiData = useLoaderData(); // (1)
-    const [isVideoLoaded, setIsVideoLoaded] = useState(false); // ভিডিও লোডিং স্টেট
+    const [isVideoLoaded, setIsVideoLoaded] = useState(false); //before ভিডিও লোডিং cover image স্টেট
 
     const handleVideoLoaded = () => { // (2)
         setIsVideoLoaded(true);
@@ -92,7 +94,14 @@ const HomePage = () => {
                 >
                     <LocationSlec reciveApiData={reciveApiData}></LocationSlec>
                 </div>
+                
             </div>
+            {/* about transpotation sumusry compo start*/}
+            <AboutCouh></AboutCouh>
+            {/* about transpotation sumusry compo end*/}
+            {/* brand img marqur section component start*/}
+            <BrandMarque></BrandMarque>
+            {/* brand img marqur section component end*/}
         </div>
     );
 };

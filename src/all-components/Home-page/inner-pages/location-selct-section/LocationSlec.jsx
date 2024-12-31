@@ -53,7 +53,7 @@ const LocationSlec = ({ reciveApiData }) => {
                             minDate: "today", // আজকের দিন থেকে শুরু
                             maxDate: new Date().fp_incr(10), // সর্বোচ্চ ১০ দিন পর্যন্ত নির্বাচন করা যাবে
                             allowInput: true, // ইনপুটের placeholder দেখাবে
-                            disableMobile: true, // মোবাইলে নেটিভ পিকার ডিজেবল করবে
+                            disableMobile: true, // মোবাইলে নেটিভ beavior ডিজেবল করবে
                         }}
                         value={date || undefined} // তারিখ স্টেট থেকে দেখাবে
                         onChange={dateHandler} // হ্যান্ডলার কল হবে

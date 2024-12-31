@@ -10,7 +10,7 @@ import ServicePgae from './all-components/service-page/ServicePgae.jsx';
 import ContactUsPgae from './all-components/contact-us-page/ContactUsPgae.jsx';
 import TicketCancelPage from './all-components/ticket-cancel-page/TicketCancelPage.jsx';
 import AlbumPgae from './all-components/album-page/AlbumPgae.jsx';
-import LocationSlec from './all-components/Home-page/inner-pages/LocationSlec.jsx';
+import LocationSlec from './all-components/Home-page/inner-pages/location-selct-section/LocationSlec.jsx';
 
 // HomePage এর জন্য loader ফাংশন
 // const homePageLoader = async () => { //(১)
