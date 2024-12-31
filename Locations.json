@@ -1,6 +1,6 @@
 {
   "LeavingCities": [
-    { "value": "Select City", "label": "Select City" },
+    { "value": "Select Leaving City", "label": "Select Leaving City" },
     { "value": "Dhaka", "label": "Dhaka" },
     { "value": "Gazipur", "label": "Gazipur" },
     { "value": "Narayanganj", "label": "Narayanganj" },
@@ -12,7 +12,7 @@
     { "value": "Chittagong", "label": "Chittagong" }
   ],
   "DepurtingCities": [
-    { "value": "Select City", "label": "Select City" },
+    { "value": "Selec Destination City", "label": "Selec Destination City" },
     { "value": "Sylhet", "label": "Sylhet" },
     { "value": "Rangamati", "label": "Rangamati" },
     { "value": "Khagrachari", "label": "Khagrachari" },
