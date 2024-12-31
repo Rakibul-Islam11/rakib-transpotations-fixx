@@ -62,7 +62,7 @@ const HomePage = () => {
 
                 {/* LocationSlec কম্পোনেন্ট */}
                 <div
-                    className="absolute bottom-0   text-white p-4 w-full for_blur_bg"
+                    className="   text-white p-4 w-full for_blur_bg"
                     style={{
                         zIndex: 2, // ভিডিওর উপরে দেখানোর জন্য
                     }}
