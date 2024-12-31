@@ -9,7 +9,7 @@ const LocationSlec = ({ leavingCities, depurtingCities }) => {
                     <select
                         name="leavingCity"
                         id="leavingCity"
-                        className="w-full sm:w-auto px-3 py-2 text-black border border-gray-300 rounded-md h-12 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full sm:w-auto px-3 py-2 text-black border border-gray-300 rounded-md md:h-12 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         {leavingCities.map((livCity, indx) => (
                             <option value={livCity.value} key={indx} className="text-black">
@@ -24,7 +24,7 @@ const LocationSlec = ({ leavingCities, depurtingCities }) => {
                     <select
                         name="depurtingCity"
                         id="depurtingCity"
-                        className="w-full sm:w-auto px-3 py-2 text-black border border-gray-300 rounded-md h-12 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full sm:w-auto px-3 py-2 text-black border border-gray-300 rounded-md md:h-12 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         {depurtingCities.map((dipCity, indxx) => (
                             <option value={dipCity.value} key={indxx} className="text-black">
