@@ -65,7 +65,7 @@ const HomePage = () => {
                         style={{ zIndex: 2, top: '10%' }}
                     >
                         <h1
-                            className="text-3xl md:text-5xl font-bold animate-pulse"
+                            className="text-2xl md:text-5xl font-bold animate-pulse"
                             style={{
                                 background: "linear-gradient(to right, #ff4d4d, #ff6666)",
                                 WebkitBackgroundClip: "text",
