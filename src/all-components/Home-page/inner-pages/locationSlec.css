@@ -1,0 +1,26 @@
+/* Select Box Styling */
+select {
+    background-color: white; /* Select box background */
+    color: black; /* Text color */
+    font-size: 16px;
+    padding: 10px;
+    border: 2px solid #4caf50; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    appearance: none; /* Remove default browser styling */
+    -webkit-appearance: none; /* Safari fix */
+    -moz-appearance: none; /* Firefox fix */
+}
+
+/* Option Styling */
+option {
+    background-color: #f1f1f1; /* Dropdown background */
+    color: black; /* Option text color */
+    font-size: 14px;
+    padding: 8px;
+}
+
+/* On hover effect for options */
+option:hover {
+    background-color: #ddd; /* Hover effect */
+    color: #000;
+}

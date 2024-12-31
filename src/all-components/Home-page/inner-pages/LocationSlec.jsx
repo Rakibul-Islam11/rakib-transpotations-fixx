@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import './locationSlec.css'
 
 const LocationSlec = ({ reciveApiData }) => {
     const { LeavingCities, DepurtingCities } = reciveApiData;
