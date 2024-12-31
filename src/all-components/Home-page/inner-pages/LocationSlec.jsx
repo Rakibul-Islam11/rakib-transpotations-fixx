@@ -16,13 +16,15 @@ const LocationSlec = ({ leavingCities, depurtingCities }) => {
                 </div>
                 <div>
                     <select name="" id="" className='px-28 py-3 text-black h-12'>
-                        {
+                        {/* {
                             depurtingCities.map((dipCity, indxx) => (
                                 <option value={dipCity.value} key={indxx} className='text-black'>
                                     {dipCity.label}
                                 </option>
                             ))
-                        }
+                        } */}
+                        <option value="s">one</option>
+                        <option value="v">two</option>
                     </select>
                 </div>
                 <div className='px-10 py-3 bg-green-500 h-12'>
