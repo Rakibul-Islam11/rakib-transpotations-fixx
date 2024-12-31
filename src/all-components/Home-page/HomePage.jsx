@@ -6,8 +6,10 @@ import LocationSlec from './inner-pages/LocationSlec';
 import './homepage.css'
 
 const HomePage = () => {
-    const { leavingCities, depurtingCities } = useLoaderData(); // (1)
+    const reciveApiData = useLoaderData(); // (1)
     const [isVideoLoaded, setIsVideoLoaded] = useState(false); // ভিডিও লোডিং স্টেট
+    
+    
 
     const handleVideoLoaded = () => { // (2)
         setIsVideoLoaded(true);
@@ -62,12 +64,12 @@ const HomePage = () => {
 
                 {/* LocationSlec কম্পোনেন্ট */}
                 <div
-                    className="   text-white p-4 w-full for_blur_bg"
+                    className=" absolute bottom-0   text-white p-4 w-full for_blur_bg"
                     style={{
                         zIndex: 2, // ভিডিওর উপরে দেখানোর জন্য
                     }}
                 >
-                    <LocationSlec leavingCities={leavingCities} depurtingCities={depurtingCities}></LocationSlec>
+                    <LocationSlec reciveApiData={reciveApiData} ></LocationSlec>
                 </div>
             </div>
         </div>
