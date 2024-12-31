@@ -1,5 +1,9 @@
 .for_blur_bg {
-    backdrop-filter: blur(15px);
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.10);
+    backdrop-filter: blur(15px); /* ব্লার প্রভাব */
+    background-color: rgba(255, 0, 0, 0.4); /* উজ্জ্বল লাল রঙের ব্যাকগ্রাউন্ড */
+    box-shadow: 0 4px 20px rgba(255, 0, 0, 0.3); /* লাল ছায়ার গভীর প্রভাব */
+    border: 1px solid rgba(255, 0, 0, 0.4); /* সেমি-ট্রান্সপারেন্ট লাল বর্ডার */
+    
+    padding: 20px; /* ভেতরের জায়গা */
+    transition: all 0.3s ease; /* মসৃণ পরিবর্তনের প্রভাব */
 }
