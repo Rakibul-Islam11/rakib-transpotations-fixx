@@ -18,7 +18,7 @@ const HomePage = () => {
             {/* video cover section  */}
             <div className="w-[96%] md:w-10/12 mx-auto relative"> {/* ভিডিও কন্টেইনারে relative */}
                 <div
-                    className="aspect-[16/19] md:aspect-[16/7]"
+                    className="aspect-[16/23] md:aspect-[16/7]"
                     style={{
                         position: 'relative',
                         width: '100%',

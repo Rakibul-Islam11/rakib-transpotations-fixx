@@ -52,6 +52,7 @@ const LocationSlec = ({ reciveApiData }) => {
                             dateFormat: "Y-m-d", // তারিখ ফরম্যাট
                             minDate: "today", // আজকের দিন থেকে শুরু
                             maxDate: new Date().fp_incr(10), // সর্বোচ্চ ১০ দিন পর্যন্ত নির্বাচন করা যাবে
+                            allowInput: true, // ইনপুটের placeholder দেখাবে
                         }}
                         value={date || undefined} // তারিখ স্টেট থেকে দেখাবে
                         onChange={dateHandler} // হ্যান্ডলার কল হবে
@@ -59,6 +60,7 @@ const LocationSlec = ({ reciveApiData }) => {
                         placeholder="Choose the date" // প্লেসহোল্ডার
                     />
                 </div>
+
 
                 {/* Search Button */}
                 <div className="w-full md:w-auto">
