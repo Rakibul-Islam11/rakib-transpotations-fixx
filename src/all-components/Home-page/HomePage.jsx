@@ -3,13 +3,11 @@ import vdo from '../../assets/video/covervideoo.mp4';
 import vdocoverimg from '../../assets/imgages/untilvideocover.png';
 import { useLoaderData } from 'react-router-dom';
 import LocationSlec from './inner-pages/LocationSlec';
-import './homepage.css'
+import './homepage.css';
 
 const HomePage = () => {
     const reciveApiData = useLoaderData(); // (1)
     const [isVideoLoaded, setIsVideoLoaded] = useState(false); // ভিডিও লোডিং স্টেট
-    
-    
 
     const handleVideoLoaded = () => { // (2)
         setIsVideoLoaded(true);
@@ -60,16 +58,39 @@ const HomePage = () => {
                             display: isVideoLoaded ? 'block' : 'none',
                         }}
                     ></video>
+
+                    {/* হেডিং (WELCOME TO RAKIB-COUCH) */}
+                    <div
+                        className="absolute inset-0 flex items-start justify-center"
+                        style={{ zIndex: 2, top: '10%' }}
+                    >
+                        <h1
+                            className="text-3xl md:text-5xl font-bold animate-pulse"
+                            style={{
+                                background: "linear-gradient(to right, #ff4d4d, #ff6666)",
+                                WebkitBackgroundClip: "text",
+                                WebkitTextFillColor: "transparent",
+                                textShadow: "0 4px 6px rgba(255, 77, 77, 0.5)",
+                                WebkitTextStroke: "1px rgba(0, 0, 0, 0.8)", // আউটলাইন যোগ করা হয়েছে
+                            }}
+                        >
+                            WELCOME TO RAKIB-COUCH
+                        </h1>
+                    </div>
+
+
+
+
                 </div>
 
                 {/* LocationSlec কম্পোনেন্ট */}
                 <div
-                    className=" absolute bottom-0   text-white p-4 w-full for_blur_bg"
+                    className="absolute bottom-0 text-white p-4 w-full for_blur_bg"
                     style={{
                         zIndex: 2, // ভিডিওর উপরে দেখানোর জন্য
                     }}
                 >
-                    <LocationSlec reciveApiData={reciveApiData} ></LocationSlec>
+                    <LocationSlec reciveApiData={reciveApiData}></LocationSlec>
                 </div>
             </div>
         </div>

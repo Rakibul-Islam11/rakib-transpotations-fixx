@@ -1,36 +1,47 @@
 import PropTypes from 'prop-types';
-import './locationSlec.css'
 
 const LocationSlec = ({ reciveApiData }) => {
     const { LeavingCities, DepurtingCities } = reciveApiData;
-    console.log(DepurtingCities);
-    
+
     return (
         <div>
-            <form className='flex flex-row gap-3 md:gap-5 flex-wrap justify-center'>
+            <form className="flex flex-col md:flex-row gap-3 md:gap-5 flex-wrap justify-center">
                 {/* Leaving City */}
-                <div className=''>
-                    <select name="" id="" className='px-28 py-3 text-black h-12'>
+                <div className="w-full md:w-auto">
+                    <select
+                        name=""
+                        id=""
+                        className="w-full h-8 md:h-12 px-2 md:px-10 text-black border border-gray-300"
+                    >
                         {LeavingCities.map((livCity, indx) => (
-                            <option value={livCity.value} key={indx} className='text-black'>
+                            <option value={livCity.value} key={indx} className="text-black">
                                 {livCity.label}
                             </option>
                         ))}
                     </select>
                 </div>
-                <div>
-                    <select name="" id="" className='px-28 py-3 text-black h-12'>
-                        {
-                            DepurtingCities.map((dipCity, indxx) => (
-                                <option value={dipCity.value} key={indxx} className='text-black'>
-                                    {dipCity.label}
-                                </option>
-                            ))
-                        }
+                {/* Departing City */}
+                <div className="w-full md:w-auto">
+                    <select
+                        name=""
+                        id=""
+                        className="w-full h-8 md:h-12 md:px-10 px-2 text-black border border-gray-300"
+                    >
+                        {DepurtingCities.map((dipCity, indxx) => (
+                            <option value={dipCity.value} key={indxx} className="text-black">
+                                {dipCity.label}
+                            </option>
+                        ))}
                     </select>
                 </div>
-                <div className='px-10 py-3 bg-green-500 h-12'>
-                    <button type='submit'>Search Buss</button>
+                {/* Search Button */}
+                <div className="w-full md:w-auto">
+                    <button
+                        type="submit"
+                        className="w-full h-8 md:h-12 px-10 bg-green-500 text-white hover:bg-green-600"
+                    >
+                        Search Buss
+                    </button>
                 </div>
             </form>
         </div>
@@ -39,7 +50,6 @@ const LocationSlec = ({ reciveApiData }) => {
 
 LocationSlec.propTypes = {
     reciveApiData: PropTypes.object,
-    
 };
 
 export default LocationSlec;
