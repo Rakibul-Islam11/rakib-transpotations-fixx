@@ -44,12 +44,22 @@ const LocationSlec = ({ reciveApiData }) => {
     return (
         <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 p-6 rounded-lg shadow-xl max-w-6xl mx-auto">
             <div className="bg-white p-4 rounded-lg shadow-lg">
-                <form onSubmit={formHandler} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-6">
+                <form onSubmit={formHandler} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6">
                     {/* Leaving City */}
                     <div className="flex flex-col">
-                        <label htmlFor="leavingCity" className="text-gray-700 font-medium md:mb-2">
-                            LEAVING CITY
-                        </label>
+                        <div className='flex flex-row items-center gap-1'>
+                            <label htmlFor="leavingCity" className="text-gray-700 font-medium md:mb-2">
+                                LEAVING CITY
+                            </label>
+                            <div className='block md:hidden'>
+                                <p
+                                    className={`text-red-500 text-sm mt-0 md:mt-1 min-h-[20px] transition-all duration-300 ${errors.leavCityError ? "opacity-100 visible" : "opacity-0 invisible"
+                                        }`}
+                                >
+                                    Please select a city
+                                </p>
+                            </div>
+                        </div>
                         <select
                             onChange={leavingCityHandler}
                             className={`w-full h-10 md:h-12 px-4 text-gray-700 bg-gray-100 rounded-lg shadow-md focus:outline-none ${errors.leavCityError
@@ -65,19 +75,31 @@ const LocationSlec = ({ reciveApiData }) => {
                             ))}
                         </select>
                         {/* error text */}
-                        <p
-                            className={`text-red-500 text-sm mt-0 md:mt-1 min-h-[20px] transition-all duration-300 ${errors.leavCityError ? "opacity-100 visible" : "opacity-0 invisible"
-                                }`}
-                        >
-                            Please select a city
-                        </p>
+                        <div className='hidden md:block'>
+                            <p
+                                className={`text-red-500 text-sm mt-0 md:mt-1 min-h-[20px] transition-all duration-300 ${errors.leavCityError ? "opacity-100 visible" : "opacity-0 invisible"
+                                    }`}
+                            >
+                                Please select a city
+                            </p>
+                        </div>
                     </div>
 
                     {/* Departing City */}
                     <div className="flex flex-col">
-                        <label htmlFor="departingCity" className="text-gray-700 font-medium md:mb-2">
-                            DEPARTING CITY
-                        </label>
+                        <div className='flex flex-row items-center gap-1'>
+                            <label htmlFor="departingCity" className="text-gray-700 font-medium md:mb-2">
+                                DEPARTING CITY
+                            </label>
+                            <div className='block md:hidden '>
+                                <p
+                                    className={` text-red-500 text-sm mt-0 md:mt-1  min-h-[20px] transition-all duration-300 ${errors.deperCityError ? "opacity-100 visible" : "opacity-0 invisible"
+                                        }`}
+                                >
+                                    Please select a city
+                                </p>
+                            </div>
+                        </div>
                         <select
                             id="departingCity"
                             onChange={DeperCityHandler}
@@ -94,19 +116,32 @@ const LocationSlec = ({ reciveApiData }) => {
                             ))}
                         </select>
                             {/* error text */}
-                        <p
-                            className={`text-red-500 text-sm mt-0 md:mt-1  min-h-[20px] transition-all duration-300 ${errors.deperCityError ? "opacity-100 visible" : "opacity-0 invisible"
-                                }`}
-                        >
-                            Please select a city
-                        </p>
+                        <div className='hidden md:block'>
+                            <p
+                                className={` text-red-500 text-sm mt-0 md:mt-1  min-h-[20px] transition-all duration-300 ${errors.deperCityError ? "opacity-100 visible" : "opacity-0 invisible"
+                                    }`}
+                            >
+                                Please select a city
+                            </p>
+                        </div>
                     </div>
 
                     {/* Date Picker */}
-                    <div className="flex flex-col">
-                        <label htmlFor="datePicker" className="text-gray-700 font-medium md:mb-2">
-                            TRAVEL DATE
-                        </label>
+                    <div className="flex flex-col ">
+                        <div className='flex flex-row items-center gap-2'>
+                            <label htmlFor="datePicker" className="text-gray-700 font-medium md:mb-2 ">
+                                TRAVEL DATE
+
+                            </label>
+                            <div className='block md:hidden '>
+                                <p
+                                    className={`text-red-500 text-sm mt-0 md:mt-1  min-h-[20px] transition-all duration-300 ${errors.dataError ? "opacity-100 visible" : "opacity-0 invisible"
+                                        }`}
+                                >
+                                    Please select a date
+                                </p>
+                            </div>
+                        </div>
                         <Flatpickr
                             id="datePicker"
                             onChange={dateHandler}
@@ -116,14 +151,14 @@ const LocationSlec = ({ reciveApiData }) => {
                                 maxDate: new Date().fp_incr(10),
                             }}
                             placeholder="Select Date"
-                            className={`w-full h-10 md:h-12 px-4 text-gray-700 bg-gray-100 rounded-lg shadow-md focus:outline-none ${errors.dataError
+                            className={`w-full  h-10 md:h-12 px-4 text-gray-700 bg-gray-100 rounded-lg shadow-md focus:outline-none ${errors.dataError
                                 ? "border-red-500 ring-4 ring-red-500"
                                 : "border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
                                 }`}
                         />
                         {/* error text */}
                         <p
-                            className={`text-red-500 text-sm mt-0 md:mt-1  min-h-[20px] transition-all duration-300 ${errors.dataError ? "opacity-100 visible" : "opacity-0 invisible"
+                            className={`hidden md:block text-red-500 text-sm mt-0 md:mt-1  min-h-[20px] transition-all duration-300 ${errors.dataError ? "opacity-100 visible" : "opacity-0 invisible"
                                 }`}
                         >
                             Please select a date
