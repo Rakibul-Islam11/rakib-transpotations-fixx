@@ -41,7 +41,7 @@ const LocationSlec = ({ reciveApiData }) => {
         
         //navigate
         if (leavCity !== "Select Leaving City" && deperCity !== "Select Destination City" && dateStor !== null) {
-            navigate('/seat-select', {
+            navigate('/bus-select', {
                 state: { // (7)
                     leavCity, // Leaving city
                     deperCity, // Departing city

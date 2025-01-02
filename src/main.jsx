@@ -11,27 +11,8 @@ import ContactUsPgae from './all-components/contact-us-page/ContactUsPgae.jsx';
 import TicketCancelPage from './all-components/ticket-cancel-page/TicketCancelPage.jsx';
 import AlbumPgae from './all-components/album-page/AlbumPgae.jsx';
 import LocationSlec from './all-components/Home-page/inner-pages/location-selct-section/LocationSlec.jsx';
-import SeatSelect from './all-components/seat-select-page/SeatSelect.jsx';
+import BusSelect from './all-components/seat-select-page/BusSelect.jsx';
 
-// HomePage এর জন্য loader ফাংশন
-// const homePageLoader = async () => { //(১)
-//   try {
-//     // API থেকে ডাটা ফেচ করুন
-//     const leavingCitiesResponse = await fetch('http://localhost:3000/LeavingCities');
-//     const depurtingCitiesResponse = await fetch('http://localhost:3000/DepurtingCities');
-
-//     // JSON ডাটা রূপান্তর করুন
-//     const leavingCities = await leavingCitiesResponse.json();
-//     const depurtingCities = await depurtingCitiesResponse.json();
-
-//     // ডাটা রিটার্ন করুন
-//     return { leavingCities, depurtingCities };
-//   } catch (error) {
-//     // কোনো API তে সমস্যা হলে খালি ডাটা রিটার্ন করুন
-//     console.error('Failed to fetch data:', error);
-//     return { leavingCities: [], depurtingCities: [] };
-//   }
-// };
 
 // রাউটারে যুক্ত করা
 const router = createBrowserRouter([
@@ -49,8 +30,9 @@ const router = createBrowserRouter([
         element: <HomePage></HomePage>
       },
       {
-        path: 'seat-select',//not main nav menu's page
-        element: <SeatSelect></SeatSelect>
+        path: 'bus-select',//not main nav menu's page
+        loader: () => fetch('locationRoute&Fare.json'),
+        element: <BusSelect></BusSelect>
       },
       {
         path: 'locationSlec', //not main nav menu's page
