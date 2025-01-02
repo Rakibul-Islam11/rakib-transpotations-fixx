@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import Flatpickr from "react-flatpickr";
 import { useState } from "react";
-import "flatpickr/dist/themes/material_green.css"; // Flatpickr এর থিম (প্রয়োজনে কাস্টমাইজ করতে পারেন)
+import "flatpickr/dist/themes/material_green.css"; // Flatpickr এর থিম
+import { useNavigate } from 'react-router-dom';
 
 
 const LocationSlec = ({ reciveApiData }) => {
@@ -10,7 +11,7 @@ const LocationSlec = ({ reciveApiData }) => {
     const [dateStor, setDateStor] = useState(null)// date stor state
     const [errors, setErrors] = useState({ leavCityError: false, deperCityError: false, dataError: null });//(1)
     const { LeavingCities, DepurtingCities } = reciveApiData;
-
+    const navigate = useNavigate()
 
     // leaving city handler
     const leavingCityHandler = (e) => {
@@ -37,13 +38,23 @@ const LocationSlec = ({ reciveApiData }) => {
         setErrors(prev => ({ ...prev, leavCityError: leavCity === "Select Leaving City" }));
         setErrors(prev => ({ ...prev, deperCityError: deperCity === "Select Destination City" }));
         setErrors(prev => ({ ...prev, dataError: dateStor === null }))
-        console.log('clicked');
+        
+        //navigate
+        if (leavCity !== "Select Leaving City" && deperCity !== "Select Destination City" && dateStor !== null) {
+            navigate('/seat-select', {
+                state: { // (7)
+                    leavCity, // Leaving city
+                    deperCity, // Departing city
+                    dateStor, // Selected date
+                }
+            });
+        }
         
     }
 
     return (
         <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 p-3 md:p-6 rounded-lg shadow-xl max-w-6xl mx-auto">
-            <div className="bg-white p-4 rounded-lg shadow-lg">
+            <div className="bg-white p-3 rounded-lg shadow-lg">
                 <form onSubmit={formHandler} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6">
                     {/* Leaving City */}
                     <div className="flex flex-col">
@@ -149,7 +160,7 @@ const LocationSlec = ({ reciveApiData }) => {
                                 dateFormat: "Y-m-d",
                                 minDate: "today",
                                 maxDate: new Date().fp_incr(10),
-                                 disableMobile: true, // মোবাইলের ডিফল্ট UI বন্ধ করতে এই লাইনটি যোগ করুন
+                                 disableMobile: true, // মোবাইলের ডিফল্ট UI বন্ধ করতে এই লাইনটি যোগ করা হয়েছে এছাড়াও responsive screen এ জেনো  style ঠিক মত্ন কাজ করে 
                             }}
                             placeholder="Select Date"
                             className={`w-full  h-10 md:h-12 px-4 text-gray-700 bg-gray-100 rounded-lg shadow-md focus:outline-none ${errors.dataError

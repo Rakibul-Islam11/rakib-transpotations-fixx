@@ -11,6 +11,7 @@ import ContactUsPgae from './all-components/contact-us-page/ContactUsPgae.jsx';
 import TicketCancelPage from './all-components/ticket-cancel-page/TicketCancelPage.jsx';
 import AlbumPgae from './all-components/album-page/AlbumPgae.jsx';
 import LocationSlec from './all-components/Home-page/inner-pages/location-selct-section/LocationSlec.jsx';
+import SeatSelect from './all-components/seat-select-page/SeatSelect.jsx';
 
 // HomePage এর জন্য loader ফাংশন
 // const homePageLoader = async () => { //(১)
@@ -44,7 +45,15 @@ const router = createBrowserRouter([
         element: <HomePage></HomePage>,
       },
       {
-        path: 'locationSlec',
+        path: '/',//মনে রাখবেন home page এর জন্য path / এভাবে দিবেন কোনো নাম দিবেন না
+        element: <HomePage></HomePage>
+      },
+      {
+        path: 'seat-select',//not main nav menu's page
+        element: <SeatSelect></SeatSelect>
+      },
+      {
+        path: 'locationSlec', //not main nav menu's page
         element: <LocationSlec></LocationSlec>
       },
       {

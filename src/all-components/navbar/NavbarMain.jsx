@@ -2,7 +2,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import imgcentrbrand from '../../assets/imgages/centerbrand.png'
 import { FaFacebookSquare } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 const navigation = [
     { name: 'HOME', to: '/', current: true },//এখানে শুধু / মানে homepage বুঝায় roter এ
     { name: 'SERVICE', to: '/service', current: false },
@@ -17,6 +17,7 @@ function classNames(...classes) {
 }
 
 export default function NavbarMain() {
+    const location = useLocation();// এটা দিয়ে current route trac করা হয়েছে
     return (
         <div className='w-[96%] md:w-10/12 mx-auto'>
             <Disclosure as="nav" className="bg-[#cc0000]">
@@ -49,7 +50,7 @@ export default function NavbarMain() {
                                         key={item.name}
                                         to={item.to}
                                         className={
-                                            item.current
+                                            location.pathname === item.to //(১)
                                                 ? 'bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium'
                                                 : 'text-white hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-bold'
                                         }
@@ -71,7 +72,7 @@ export default function NavbarMain() {
                                         key={item.name}
                                         to={item.to}
                                         className={
-                                            item.current
+                                            location.pathname === item.to //same as (১)
                                                 ? 'bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium'
                                                 : 'text-white font-bold hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm'
                                         }
@@ -95,7 +96,7 @@ export default function NavbarMain() {
                                 to={item.to}
                                 aria-current={item.current ? 'page' : undefined}
                                 className={classNames(
-                                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    location.pathname === item.to, //(১) ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                     'block rounded-md px-3 py-2 text-base font-medium',
                                 )}
                             >
@@ -109,3 +110,5 @@ export default function NavbarMain() {
         
     )
 }
+
+// (1) ==> এখানে route এর useLocation hook এর মাদ্ধমে current path trac করা হয়েছে আর সেটা অই hook এর ই pathname object name দিয়ে ধরা হয়েছে।
