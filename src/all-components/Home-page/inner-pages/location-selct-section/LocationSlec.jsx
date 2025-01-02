@@ -149,6 +149,7 @@ const LocationSlec = ({ reciveApiData }) => {
                                 dateFormat: "Y-m-d",
                                 minDate: "today",
                                 maxDate: new Date().fp_incr(10),
+                                 disableMobile: true, // মোবাইলের ডিফল্ট UI বন্ধ করতে এই লাইনটি যোগ করুন
                             }}
                             placeholder="Select Date"
                             className={`w-full  h-10 md:h-12 px-4 text-gray-700 bg-gray-100 rounded-lg shadow-md focus:outline-none ${errors.dataError
