@@ -12,7 +12,7 @@
     { "value": "Chittagong", "label": "Chittagong" }
   ],
   "DepurtingCities": [
-    { "value": "Selec Destination City", "label": "Selec Destination City" },
+    { "value": "Select Destination City", "label": "Select Destination City" },
     { "value": "Sylhet", "label": "Sylhet" },
     { "value": "Rangamati", "label": "Rangamati" },
     { "value": "Khagrachari", "label": "Khagrachari" },
