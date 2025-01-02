@@ -42,13 +42,13 @@ const LocationSlec = ({ reciveApiData }) => {
     }
 
     return (
-        <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 p-6 rounded-lg shadow-xl max-w-6xl mx-auto">
+        <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 p-3 md:p-6 rounded-lg shadow-xl max-w-6xl mx-auto">
             <div className="bg-white p-4 rounded-lg shadow-lg">
                 <form onSubmit={formHandler} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6">
                     {/* Leaving City */}
                     <div className="flex flex-col">
-                        <div className='flex flex-row items-center gap-1'>
-                            <label htmlFor="leavingCity" className="text-gray-700 font-medium md:mb-2">
+                        <div className='flex flex-row items-center gap-1 pb-1'>
+                            <label htmlFor="leavingCity" className="text-gray-700 text-[14px] md:font-medium md:mb-2">
                                 LEAVING CITY
                             </label>
                             <div className='block md:hidden'>
@@ -87,8 +87,8 @@ const LocationSlec = ({ reciveApiData }) => {
 
                     {/* Departing City */}
                     <div className="flex flex-col">
-                        <div className='flex flex-row items-center gap-1'>
-                            <label htmlFor="departingCity" className="text-gray-700 font-medium md:mb-2">
+                        <div className='flex flex-row items-center gap-1 pb-1'>
+                            <label htmlFor="departingCity" className="text-gray-700 font-medium text-[14px] md:mb-2">
                                 DEPARTING CITY
                             </label>
                             <div className='block md:hidden '>
@@ -128,8 +128,8 @@ const LocationSlec = ({ reciveApiData }) => {
 
                     {/* Date Picker */}
                     <div className="flex flex-col ">
-                        <div className='flex flex-row items-center gap-2'>
-                            <label htmlFor="datePicker" className="text-gray-700 font-medium md:mb-2 ">
+                        <div className='flex flex-row items-center gap-2 pb-1'>
+                            <label htmlFor="datePicker" className="text-gray-700 text-[14px] font-medium md:mb-2 ">
                                 TRAVEL DATE
 
                             </label>
