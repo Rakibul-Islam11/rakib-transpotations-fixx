@@ -1,4 +1,5 @@
 import ftrimg from '../../assets/imgages/footerimg.jpg'
+import './footer.css'
 
 const Footer = () => {
     const forFtrBg = {
@@ -17,7 +18,7 @@ const Footer = () => {
     return (
         <div>
             <div  className="w-[100vw] h-[450px]">
-                <div style={forFtrBg}>
+                <div style={forFtrBg} className='for_bg_img_setup'>
 
                 </div>
             </div>

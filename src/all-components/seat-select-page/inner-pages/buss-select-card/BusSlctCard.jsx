@@ -2,6 +2,10 @@
 import { PropTypes } from 'prop-types';
 import { useEffect, useState } from 'react';
 import { RxCross2 } from "react-icons/rx";
+import { Snackbar } from "@mui/material";
+import Alert from "@mui/material/Alert"; // For styled toast
+import './busSlcCard.css'
+
 import bgimg from '../../../../assets/imgages/BbusBG.png'
 
 
@@ -27,6 +31,8 @@ const BusSlctCard = ({ leavCity, deperCity, data }) => {
     };
 
     const [visibility, setVisibility] = useState([]); // Visibility state
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [openToast, setOpenToast] = useState(false); // State to manage Snackbar visibility
     const getBus = data[leavCity][deperCity].buses;
 
     // এখন এখানে যদি api তে bus সংখা বাড়ায় তাহলে যেনো এখানে সেটা auto update হয়ে যায় এজন্য useEffect করা হয়েছে
@@ -35,133 +41,265 @@ const BusSlctCard = ({ leavCity, deperCity, data }) => {
         setVisibility(initialVisibility);
     }, [getBus]);
 
-
+    //select seat button toggle fn
     const toggleVisibility = (indxx) => {
         setVisibility(prev => (
             prev.map((visible, i) => (i === indxx ? !visible : visible))//(2)(6)
         ))
     }
-    // Hide visibility for a specific index for cross button
+    // cross button fn
     const handleCrossBTN = (indxx) => {//(3)
         setVisibility(prevVisibility =>
             prevVisibility.map((visible, i) => (i === indxx ? false : visible))//(10)
         );
     };
+    //seat select handler
+    const seatSelectHandler = (sinSeat) => {
+        if (selectedSeats.includes(sinSeat)) {
+            setSelectedSeats(selectedSeats.filter(s => s !== sinSeat))
+        } else if (selectedSeats.length < 4) {
+            setSelectedSeats([...selectedSeats, sinSeat]);//(3)
+        } else {
+            setOpenToast(true)
+        }
+    }
+    const removeSeatFromCart = (seat) => {
+        setSelectedSeats(selectedSeats.filter((s) => s !== seat));//(11)
+    };
+    //handle toast
+    const handleCloseToast = () => {
+        setOpenToast(false);
+    }
     return (
         <div>
-            {/* buss time and info card  start*/}
-            <div className="flex flex-row justify-between items-center  h-12 bg-gray-400 mx-auto px-2 mt-4 font-bold text-[15px] md:text-lg">
-                <p>Coach Info</p>
-                <p>Departure Time</p>
-                <p>Fare (BDT)</p>
-            </div>
-            {/* buss time and info card  end*/}
-            {/* looping for get each busses */}
-            {
-                getBus.map((singleBus, indxx) => (
-                    <div key={indxx}>
-                        <div>
-                            {/* available buss card start*/}
-                            <div className=" flex flex-row justify-between items-center px-2 py-6 mx-auto bg-white border border-black">
-                                <div>
-                                    <h1 className="font-bold text-[#656060]">
-                                        RAKIB TR <sup className="text-[10px]">TM</sup>
-                                    </h1>
-                                    <p className="text-[12px] md:text-md text-[#656060]">
-                                        Bus ID: {singleBus.busId}
-                                    </p>
-                                    <p className="italic text-[12px] md:text-md text-[#656060]">
-                                        Class: {singleBus.class}
-                                    </p>
-                                </div>
-                                <div className="flex flex-col md:flex-row md:gap-3 items-center">
-                                    <p>Time:</p>
-                                    <p className="text-sm md:text-md text-[#656060]">
-                                        {singleBus.time}
-                                    </p>
-                                </div>
-                                <div className="flex flex-col justify-end items-end gap-2">
-                                    <p>{singleBus.fare}(tk)</p>
-                                    <button
-                                        onClick={() => toggleVisibility(indxx)}
-                                        className="px-2 md:px-4 py-1 md:py-1 bg-blue-600 text-sm md:text-md text-white"
-                                    >
-                                        {visibility[indxx] ? 'Hide Seats' : 'Select Seat'}
-                                    </button>
-                                </div>
-                            </div>
-                            {/* available buss card end*/}
-                            {/* Seat planning section start*/}
-                            {visibility[indxx] && ( // (9)
-                                <div className=" bg-white p-4">
-                                    {/* Cross button */}
-                                    <div className="flex">
-                                        <span
-                                            onClick={() => handleCrossBTN(indxx)}
-                                            className="ms-auto cursor-pointer text-2xl"
-                                        >
-                                            <RxCross2 />
-                                        </span>
-                                    </div>
+            <div>
+                {/* buss time and info card  start*/}
+                <div className="flex flex-row justify-between items-center  h-12 bg-gray-400 mx-auto px-2 mt-4 font-bold text-[15px] md:text-lg">
+                    <p>Coach Info</p>
+                    <p>Departure Time</p>
+                    <p>Fare (BDT)</p>
+                </div>
+                {/* buss time and info card  end*/}
+                {/* looping for get each busses */}
+                {
+                    getBus.map((singleBus, indxx) => (
+                        <div key={indxx}>
+                            <div>
+                                {/* available buss card start*/}
+                                <div className=" flex flex-row justify-between items-center px-2 py-6 mx-auto bg-white border border-black">
                                     <div>
-                                        <div style={appStyle} className="flex flex-row gap-12 ps-4 text-[#656060]">
-                                            <div className="flex flex-row pt-28 gap-3">
-                                                <div className="flex flex-col gap-2">
-                                                    {leftSeat.map((sinSeat) => (
-                                                        <button
-                                                            key={sinSeat}
-                                                            style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                            className="w-8 h-8 xl:w-9 xl:h-9 seatBTN bg-white text-sm"
-                                                        >
-                                                            {sinSeat}
-                                                        </button>
-                                                    ))}
+                                        <h1 className="font-bold text-[#656060]">
+                                            RAKIB TR <sup className="text-[10px]">TM</sup>
+                                        </h1>
+                                        <p className="text-[12px] md:text-md text-[#656060]">
+                                            Bus ID: {singleBus.busId}
+                                        </p>
+                                        <p className="italic text-[12px] md:text-md text-[#656060]">
+                                            Class: {singleBus.class}
+                                        </p>
+                                    </div>
+                                    <div className="flex flex-col md:flex-row md:gap-3 items-center">
+                                        <p>Time:</p>
+                                        <p className="text-sm md:text-md text-[#656060]">
+                                            {singleBus.time}
+                                        </p>
+                                    </div>
+                                    <div className="flex flex-col justify-end items-end gap-2">
+                                        <p>{singleBus.fare}(tk)</p>
+                                        <button
+                                            onClick={() => toggleVisibility(indxx)}
+                                            className="px-2 md:px-4 py-1 md:py-1 bg-blue-600 text-sm md:text-md text-white"
+                                        >
+                                            {visibility[indxx] ? 'Hide Seats' : 'Select Seat'}
+                                        </button>
+                                    </div>
+                                </div>
+                                {/* available buss card end*/}
+                                {/* Seat planning section start*/}
+                                {visibility[indxx] && ( // (9)
+                                    <div className=" bg-white p-4 w-full relative">
+                                        <div className='absolute left-[10.5%] top-[6.9%]'>
+                                            <button className='custom-button shadow-2xl'>
+                                                Refresh
+                                            </button>
+                                        </div>
+                                        {/* Cross button */}
+                                        <div className="flex">
+                                            <span
+                                                onClick={() => handleCrossBTN(indxx)}
+                                                className="ms-auto cursor-pointer text-2xl"
+                                            >
+                                                <RxCross2 />
+                                            </span>
+                                        </div>
+                                        <div className='flex flex-col md:flex-row  gap-16 mx-auto justify-center '>
+                                            <div style={appStyle} className="flex flex-row gap-[51px] ps-4 text-[#656060]">
+                                                <div className="flex flex-row pt-28 gap-3">
+                                                    <div className="flex flex-col gap-2">
+                                                        
+                                                        {leftSeat.map((sinSeat) => (
+                                                            <button
+                                                                onClick={() => seatSelectHandler(sinSeat)}
+                                                                key={sinSeat}
+                                                                style={{ borderRadius: '15px 15px 7px 7px' }}
+                                                                // className="w-8 h-8 xl:w-9 xl:h-9 seatBTN bg-white text-sm"
+                                                                className={`w-8 h-8 xl:w-9 xl:h-9 font-bold  text-sm shadow-2xl seatBTN ${selectedSeats.includes(sinSeat) ? "bg-gray-600" : "bg-white"
+                                                                    } text-black`}
+                                                            >
+                                                                {sinSeat}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                    <div className="flex flex-col gap-2">
+                                                        {leftSecondSeat.map((sinSeat) => (
+                                                            <button
+                                                                onClick={() => seatSelectHandler(sinSeat)}
+                                                                key={sinSeat}
+                                                                style={{ borderRadius: '15px 15px 7px 7px' }}
+                                                                className={`w-8 h-8 xl:w-9 xl:h-9 text-sm font-bold shadow-2xl seatBTN ${selectedSeats.includes(sinSeat) ? "bg-gray-600" : "bg-white"
+                                                                    } text-black`}
+                                                            >
+                                                                {sinSeat}
+                                                            </button>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                                <div className="flex flex-col gap-2">
-                                                    {leftSecondSeat.map((sinSeat) => (
-                                                        <button
-                                                            key={sinSeat}
-                                                            style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                            className="w-8 h-8 xl:w-9 xl:h-9 seatBTN bg-white text-sm"
-                                                        >
-                                                            {sinSeat}
-                                                        </button>
-                                                    ))}
+                                                <div className="flex flex-row pt-28 gap-3">
+                                                    <div className="flex flex-col gap-2">
+                                                        {c1Seat.map((sinSeat) => (
+                                                            <button
+                                                                onClick={() => seatSelectHandler(sinSeat)}
+                                                                key={sinSeat}
+                                                                style={{ borderRadius: '15px 15px 7px 7px' }}
+                                                                className={`w-8 h-8 xl:w-9 font-bold  xl:h-9 text-sm seatBTN ${selectedSeats.includes(sinSeat) ? "bg-gray-600" : "bg-white"
+                                                                    } text-black`}
+                                                            >
+                                                                {sinSeat}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                    <div className="flex flex-col gap-2">
+                                                        {d1Seat.map((sinSeat) => (
+                                                            <button
+                                                                onClick={() => seatSelectHandler(sinSeat)}
+                                                                key={sinSeat}
+                                                                style={{ borderRadius: '15px 15px 7px 7px' }}
+                                                                className={`w-8 h-8 xl:w-9 font-bold  xl:h-9 text-sm seatBTN ${selectedSeats.includes(sinSeat) ? "bg-gray-600" : "bg-white"
+                                                                    } text-black`}
+                                                            >
+                                                                {sinSeat}
+                                                            </button>
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="flex flex-row pt-28 gap-3">
-                                                <div className="flex flex-col gap-2">
-                                                    {c1Seat.map((sinSeat) => (
-                                                        <button
-                                                            key={sinSeat}
-                                                            style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                            className="w-8 h-8 xl:w-9 xl:h-9 seatBTN bg-white text-sm"
-                                                        >
-                                                            {sinSeat}
-                                                        </button>
-                                                    ))}
+
+
+                                            <div className="flex flex-row w-2/3 gap-4">
+                                                {/* Cart section start */}
+                                                <div className="w-1/2 h-fit min-h-[198px] border border-gray-300 rounded-md bg-white">
+                                                    <table className="w-full border-collapse">
+                                                        <thead>
+                                                            <tr className="bg-gray-100 border-b border-gray-300 text-[16px]">
+                                                                <th className="py-2 px-2 lg:px-4 font-semibold">Seats</th>
+                                                                <th className="py-2 px-2 lg:px-4 font-semibold">Fare</th>
+                                                                <th className="py-2 px-2 lg:px-4 font-semibold">Class</th>
+                                                                <th className="py-2 px-2 lg:px-4 font-semibold">Cancel</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {selectedSeats.length > 0 ? (
+                                                                selectedSeats.map((seat) => (
+                                                                    <tr
+                                                                        key={seat}
+                                                                        className="bg-white border-b border-gray-200 text-center"
+                                                                    >
+                                                                        <td className="py-2 px-2 lg:px-4">{seat}</td>
+                                                                        <td className="py-2 px-2 lg:px-4">৳500</td>
+                                                                        <td className="py-2 px-2 lg:px-4">Economy</td>
+                                                                        <td className="py-2 px-2 lg:px-4">
+                                                                            <button
+                                                                                className="text-red-500"
+                                                                                onClick={() => removeSeatFromCart(seat)}
+                                                                            >
+                                                                                ✕
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                ))
+                                                            ) : (
+                                                                <tr>
+                                                                    <td
+                                                                        colSpan="4"
+                                                                        className="py-2 px-2 lg:px-4 text-gray-500 text-center"
+                                                                    >
+                                                                        No seats selected
+                                                                    </td>
+                                                                </tr>
+                                                            )}
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                                <div className="flex flex-col gap-2">
-                                                    {d1Seat.map((sinSeat) => (
-                                                        <button
-                                                            key={sinSeat}
-                                                            style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                            className="w-8 h-8 xl:w-9 xl:h-9 seatBTN bg-white text-sm"
-                                                        >
-                                                            {sinSeat}
-                                                        </button>
-                                                    ))}
+                                                {/* Cart section end */}
+
+                                                {/* Fare section start */}
+                                                <div className="w-1/2 h-fit p-4 bg-white border border-gray-300 rounded-md">
+                                                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                                                        <span className="text-gray-600 font-medium">Total Fare :</span>
+                                                        <span className="text-gray-800 font-semibold">0 BDT</span>
+                                                    </div>
+                                                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                                                        <span className="text-gray-600 font-medium">Process Fee :</span>
+                                                        <span className="text-gray-800 font-semibold">25 BDT</span>
+                                                    </div>
+                                                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                                                        <span className="text-gray-600 font-medium">Bank Charge :</span>
+                                                        <span className="text-gray-800 font-semibold">0 BDT</span>
+                                                    </div>
+                                                    <div className="flex justify-between items-center py-2">
+                                                        <span className="text-gray-600 font-medium">Total Amount :</span>
+                                                        <span className="text-gray-800 font-semibold">25 BDT</span>
+                                                    </div>
                                                 </div>
+                                                {/* Fare section end */}
                                             </div>
+
+
+
+
                                         </div>
                                     </div>
-                                </div>
-                            )}
-                            {/* Seat planning section end*/}
+                                )}
+                                {/* Seat planning section end*/}
+                            </div>
+
+                            <div>
+                                
+                            </div>
+
+
+
+
+
+
+
+
+                            {/* Toast (Snackbar) */}
+                            <Snackbar
+                                open={openToast}
+                                autoHideDuration={3000}
+                                onClose={handleCloseToast}
+                                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                            >
+                                <Alert onClose={handleCloseToast} severity="warning" variant="filled">
+                                    You can select up to 4 seats only!
+                                </Alert>
+                            </Snackbar>
                         </div>
-                    </div>
-                ))
-            }
+                    ))
+                }
+                
+            </div>
         </div>
     );
 };
