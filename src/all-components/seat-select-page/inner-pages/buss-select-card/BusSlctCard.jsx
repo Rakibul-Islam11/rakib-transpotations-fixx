@@ -29,7 +29,7 @@ const BusSlctCard = ({ leavCity, deperCity, data }) => {
     const [visibility, setVisibility] = useState([]); // Visibility state
     const getBus = data[leavCity][deperCity].buses;
 
-    // এখন এখানে যদি api তে bus সংখায় বাড়ায় তাহলে যেনো এখানে সেটা auto update হয়ে যায় এজন্য useEffect করা হয়েছে
+    // এখন এখানে যদি api তে bus সংখা বাড়ায় তাহলে যেনো এখানে সেটা auto update হয়ে যায় এজন্য useEffect করা হয়েছে
     useEffect(() => {
         const initialVisibility = Array(getBus.length).fill(false); //(4)
         setVisibility(initialVisibility);
@@ -38,13 +38,13 @@ const BusSlctCard = ({ leavCity, deperCity, data }) => {
 
     const toggleVisibility = (indxx) => {
         setVisibility(prev => (
-            prev.map((visible, i) => (i === indxx ? !visible : visible))
+            prev.map((visible, i) => (i === indxx ? !visible : visible))//(2)(6)
         ))
     }
-    // Hide visibility for a specific index
+    // Hide visibility for a specific index for cross button
     const handleCrossBTN = (indxx) => {//(3)
         setVisibility(prevVisibility =>
-            prevVisibility.map((visible, i) => (i === indxx ? false : visible))//(2)(6)
+            prevVisibility.map((visible, i) => (i === indxx ? false : visible))//(10)
         );
     };
     return (
@@ -92,8 +92,8 @@ const BusSlctCard = ({ leavCity, deperCity, data }) => {
                             </div>
                             {/* available buss card end*/}
                             {/* Seat planning section start*/}
-                            {visibility[indxx] && (
-                                <div className="w-[100%] md:w-3/4 mx-auto bg-white p-4">
+                            {visibility[indxx] && ( // (9)
+                                <div className=" bg-white p-4">
                                     {/* Cross button */}
                                     <div className="flex">
                                         <span
@@ -175,7 +175,103 @@ export default BusSlctCard;
 
 
 
-// (2) ==> এখানে আমার লপিং করে তইরি করা section গুলির index number এর সাথেযদি usestate এর রাখা সেই প্রতিটা section এর জন্য store করা true or false এর indx number মিলে যায় তাহলে সেই index position এর state valu update হয়ে যায়। আর মিলে না গেলে visible হবে মানে আগের অবস্থানেই থাকবে যা অই prevVisibility.map এর পেরামিটার এখন বলতে পারেন এখানে কিভাবে state এর শুধু নির্দিষ্ট ভেলুই আপডেট হচ্ছে কেনো অন্য ভেলু গুলি রিসেট হয়ে যাচ্ছে না এবং কেনো সেখত্ত্রে spreed oparetor use করলাম না তা বুঝতে নিচে দেখুন
+// (2) ==> এখানে আমার লপিং করে তইরি করা section গুলির index number এর সাথেযদি usestate এর রাখা সেই প্রতিটা section এর জন্য store করা true or false এর indx number মিলে যায় তাহলে সেই index position এর state valu update হয়ে যায়। আর মিলে না গেলে visible হবে মানে আগের অবস্থানেই থাকবে যা অই prevVisibility.map এর পেরামিটার এখন বলতে পারেন।
+// এই কোডটি React - এ একটি visibility স্টেট পরিচালনা করছে, যা একটি অ্যারে হিসেবে কাজ করছে। প্রতিটি উপাদান(item) হয় true(দেখানো হচ্ছে) বা false(লুকানো হচ্ছে) মান ধারণ করে। toggleVisibility ফাংশনটি নির্দিষ্ট ইনডেক্সে থাকা উপাদানের মান true থেকে false বা false থেকে true এ পরিবর্তন করে।
+
+// কোড ভেঙে দেখা:
+// visibility স্টেট: এটি একটি অ্যারে, যেখানে প্রতিটি ইনডেক্সে true বা false মান আছে।
+
+// উদাহরণ: [false, false, false]।
+// setVisibility ফাংশন: এটি স্টেট আপডেট করার জন্য ব্যবহৃত হচ্ছে।
+
+// toggleVisibility ফাংশন: এই ফাংশনটি একটি নির্দিষ্ট ইনডেক্সে থাকা মান টগল করে(মানে true থাকলে false এবং false থাকলে true)।
+
+// প্রতি ইটারেশনে কী হচ্ছে ?
+//     prev.map ব্যবহার করে visibility অ্যারেটি লুপ করা হচ্ছে।
+
+// prev হলো বর্তমান visibility অ্যারের কপি।
+// i হলো প্রতিটি উপাদানের ইনডেক্স।
+// লজিক:
+
+// যদি বর্তমান ইনডেক্স(i) ফাংশনে পাস করা ইনডেক্স(indxx) এর সমান হয়:
+// ঐ ইনডেক্সের মান true থেকে false বা false থেকে true করা হয়।
+// অন্যথায়, ঐ ইনডেক্সের মান অপরিবর্তিত থাকে।
+// উদাহরণ ধরে ব্যাখ্যা:
+// ধরি, visibility এর বর্তমান মান:
+// javascript
+// Copy code
+// visibility = [false, false, false];
+// যদি toggleVisibility(1) কল করা হয়:
+// prev.map চালাবে:
+// প্রথম ইটারেশনে(i = 0):
+// i === indxx → 0 === 1 → false → মান অপরিবর্তিত থাকবে: false
+// দ্বিতীয় ইটারেশনে(i = 1):
+// i === indxx → 1 === 1 → true → মান false থেকে true এ পরিবর্তন।
+// তৃতীয় ইটারেশনে(i = 2):
+// i === indxx → 2 === 1 → false → মান অপরিবর্তিত থাকবে: false
+// ফলাফল:
+// javascript
+// Copy code
+// visibility = [false, true, false];
+// সারাংশ:
+// প্রতি ইটারেশনে: প্রতিটি উপাদানের ইনডেক্স চেক করা হয়। যদি ইনডেক্স মিলে যায়, তাহলে তার মান টগল করা হয়। অন্যথায়, মান অপরিবর্তিত রাখা হয়।
+
+
+// এই অংশটি Ternary Operator ব্যবহার করে একটি সরল শর্ত নির্ধারণ করছে। এটি নির্ধারণ করে, বর্তমান উপাদানটি আপডেট হবে কি না।
+
+// i === indxx ? !visible : visible
+// i === indxx:
+// এটি চেক করে, বর্তমান ইটারেশনের ইনডেক্স(i) কি ফাংশনে পাস করা ইনডেক্স(indxx) এর সমান।
+
+// যদি true হয়:
+// মানটিকে টগল করে(অর্থাৎ, !visible)।
+// যদি false হয়:
+// মান অপরিবর্তিত রাখে(visible)।
+// এক্সপ্ল্যানেশন:
+// i === indxx:
+
+// i হলো map লুপের চলমান ইনডেক্স।
+// indxx হলো সেই ইনডেক্স যা আপনি ফাংশনে পাস করেছেন।
+// ?(Ternary Operator):
+
+// যদি শর্তটি(i === indxx) সত্য হয় → !visible।
+// !visible: বর্তমান মানকে বিপরীত করে।
+// যদি true হয়, তাহলে false হবে।
+// যদি false হয়, তাহলে true হবে।
+// যদি শর্তটি মিথ্যা হয় → visible।
+// মান অপরিবর্তিত রাখে।
+// উদাহরণ:
+// ধরি, visibility অ্যারে:
+
+// javascript
+// Copy code
+// visibility = [true, false, true];
+// এখন যদি toggleVisibility(1) কল করা হয়:
+
+// map লুপ চালু হবে:
+
+// প্রথম উপাদান(i = 0):
+// i === indxx → 0 === 1 → false
+// ফলাফল: visible(অর্থাৎ, true)।
+// দ্বিতীয় উপাদান(i = 1):
+// i === indxx → 1 === 1 → true
+// ফলাফল: !visible(অর্থাৎ, !false → true)।
+// তৃতীয় উপাদান(i = 2):
+// i === indxx → 2 === 1 → false
+// ফলাফল: visible(অর্থাৎ, true)।
+// ফলাফল:
+// আপডেটেড অ্যারে:
+
+// javascript
+// Copy code
+// visibility = [true, true, true];
+// সংক্ষেপে:
+// i === indxx: নির্ধারণ করে এই ইনডেক্সটি টার্গেট করা হয়েছে কি না।
+// !visible: মান টগল করে।
+// visible: অন্য উপাদানগুলির মান অপরিবর্তিত রাখে।
+
+
+// এখানে কিভাবে state এর শুধু নির্দিষ্ট ভেলুই আপডেট হচ্ছে কেনো অন্য ভেলু গুলি রিসেট হয়ে যাচ্ছে না এবং কেনো সেখত্ত্রে spreed oparetor use করলাম না তা বুঝতে নিচে দেখুন
 
 // (6)==>আপনার প্রশ্নটি চমৎকার। আপনার useState ব্যবহার এবং spread operator নিয়ে যে দ্বিধা হয়েছে তা ব্যাখ্যা করছি।
 
@@ -238,8 +334,117 @@ export default BusSlctCard;
 
 
 
-// (4)==> যখন useEffect টা চলবে তখন সে একটি নতুন array create করবে কারন আমরা মেইন জাইগাতে item update করেছি এই জন্য এখানে state এও upadate করা জন্যি এটা করছি এখানে update করার জন্য সে শুধু প্রইবরতন কৃত ভেলুটিকেই update করে দিবে বিশয়টা তা না বন্রং সে নতুন ভেলু add করার জন্য আবার সম্পুন নতুন একটা array create করে update কৃত ভেলু নিয়ে আর প্রতিটা ভেলুতে ডট fill দিয়ে true ভেলু সেট করে দেওয়া হচ্ছে । তাহলে এখানে যেটা হচ্ছে str এর lenght যতটা ঠিক ততগুলি array item তইরি হচ্ছে আর এখানে useEffect যেটা করে সেটা হলো ঠিক তখনি এই নতুন array তইরি হবে যখন str এর মদ্ধগে velu upadte হবে যা dependence তে সেট করা আছে।
+// (4)==> যখন useEffect টা চলবে তখন সে একটি নতুন array create করবে কারন আমরা মেইন জাইগাতে item update করেছি এই জন্য এখানে state এও upadate করা জন্যি এটা করছি এখানে update করার জন্য সে শুধু প্রইবরতন কৃত ভেলুটিকেই update করে দিবে বিশয়টা তা না বন্রং সে নতুন ভেলু add করার জন্য আবার সম্পুন নতুন একটা array create করে update কৃত ভেলু নিয়ে আর প্রতিটা ভেলুতে ডট fill দিয়ে true ভেলু সেট করে দেওয়া হচ্ছে । তাহলে এখানে যেটা হচ্ছে str এর lenght যতটা ঠিক ততগুলি array item তইরি হচ্ছে আর এখানে useEffect যেটা করে সেটা হলো ঠিক তখনি এই নতুন array তইরি হবে যখন str এর মদ্ধগে velu upadte হবে যা dependence তে সেট করা আছে। এটী আসলে highly dynamic করা হয়েছে জেনো পরিবরতিতে আমাদের বাসের সংখা যদি বাড়ে তাহলে অখানে api তে apdate করলে auto এখানে info add হয়ে যাবে।
+
+// কেনো useEffect ব্যবহার করা হয়েছে ?
+//     useEffect ব্যবহার করা হয়েছে, কারণ visibility স্টেটটি এমনভাবে ইনিশিয়ালাইজ করতে হবে যেন এটি getBus ডেটার দৈর্ঘ্যের উপর নির্ভরশীল।**
+//         যখনই getBus পরিবর্তিত হবে, তখন visibility স্টেট আপডেট হবে।
+// এর ফলে, নতুন বাস যুক্ত হলে স্টেট অটো - আপডেট হয়ে যায়।
+// useEffect এর মধ্যে কি করা হয়েছে ?
+//     javascript
+// Copy code
+// useEffect(() => {
+//     const initialVisibility = Array(getBus.length).fill(false);
+//     setVisibility(initialVisibility);
+// }, [getBus]);
+// getBus.length ডেটার দৈর্ঘ্য বের করা হয়েছে:
+
+// getBus হলো অ্যারে, যা API থেকে প্রতিটি বাসের ডেটা ধারণ করে।
+// getBus.length দিয়ে জানা যায়, কতগুলো বাস আছে।
+// Array(getBus.length).fill(false) তৈরি করা হয়েছে:
+
+// এটি একটি নতুন অ্যারে তৈরি করে, যার দৈর্ঘ্য getBus.length।
+// প্রতিটি আইটেমে false রাখা হয়েছে।
+// উদাহরণ:
+// যদি getBus.length = 3, তাহলে অ্যারে হবে: [false, false, false].
+// setVisibility দিয়ে স্টেট আপডেট করা হয়েছে:
+
+// নতুন তৈরি করা[false, false, false] অ্যারেটি visibility স্টেটে সেট করা হয়েছে।
+// ডিপেন্ডেন্সি লিস্টে[getBus]:
+
+// যখনই getBus পরিবর্তিত হবে, useEffect পুনরায় চালু হবে এবং visibility স্টেট আপডেট করবে।
+// Iteration অনুযায়ী কি হচ্ছে ?
+//     ধরি, getBus ডেটা প্রথমে ছিল:
+
+// javascript
+// Copy code
+// getBus = [
+//     { busId: 1, time: "10:00 AM" },
+//     { busId: 2, time: "12:00 PM" },
+// ];
+// প্রথমবার:
+// getBus.length = 2.
+// Array(2).fill(false) →[false, false].
+//     setVisibility → visibility = [false, false].
+//         দ্বিতীয়বার(নতুন বাস যুক্ত হলো):
+// ধরি, getBus আপডেট হলো:
+
+// javascript
+// Copy code
+// getBus = [
+//     { busId: 1, time: "10:00 AM" },
+//     { busId: 2, time: "12:00 PM" },
+//     { busId: 3, time: "2:00 PM" },
+// ];
+// getBus.length = 3.
+// Array(3).fill(false) →[false, false, false].
+//     setVisibility → visibility = [false, false, false]।
+// সংক্ষেপে:
+// useEffect দিয়ে নিশ্চিত করা হয়েছে, visibility অ্যারে সবসময় getBus ডেটার দৈর্ঘ্যের সাথে মিলবে।
+// যখনই getBus ডেটা পরিবর্তন হয়(যেমন নতুন বাস যুক্ত হয়), visibility অটো - আপডেট হয়ে যায়।
 
 
 
 // (3)==> এখানে setVisibility এর মদ্ধে যে আমি একটা callback fn create করেছি এর মদ্ধে এই prevVisibility পেরামিটারটা আপনার state এর মদ্ধে থাকা সমস্ত ভেলু কে গেট করে এখানে ভাবতে পারেন একটি sate এর মদ্ধে arrow callback fn তইরি করলে তার পেরামিটার কিভাবে অই state এ থাকা সমস্ত ভালেউ গেট করে এটা আসলে state management এর বিষয় । এখানে মনে রাখবেন আপনি যদি কোনো state এর মদ্ধে array আকারে অনেক ডাটা থাকে তাহলে আপনি সেই প্রতিটা ডাটা অই state fn এর মদ্ধে একটা arrow calback fn create করে তার পেরামিটার দিয়ে আপনি সব ভেলু গুলিকে ধরতে পারবেন। আর  এখানে ভেলু গুলিকে অই পেরামিটার দিয়ে ধরে তার উপরে আমারা loop চালিয়ে নিজেদের কাজে ব্যবহার করেছি।
+
+
+
+
+// (9) ==> visibility[indxx] && অংশটি একটি শর্ত নির্দেশ করার জন্য ব্যবহৃত হয়েছে, যা নির্ধারণ করে সিট প্ল্যানিং সেকশনটি দেখানো হবে কি না। এটি visibility স্টেটের indxx ইনডেক্সের মানের উপর নির্ভর করে।
+
+// visibility[indxx] && কেন ব্যবহার করা হয়েছে ?
+//     visibility হলো একটি অ্যারে, যেখানে প্রতিটি ইনডেক্স একটি বুলিয়ান ভ্যালু ধারণ করে।
+
+// প্রতিটি ইনডেক্সের মান:
+// true হলে → সিট প্ল্যানিং সেকশনটি দেখাবে।
+// false হলে → সিট প্ল্যানিং সেকশনটি লুকানো থাকবে।
+// visibility[indxx] চেক করে, বর্তমানে কোন বাসের সিট প্ল্যানিং সেকশনটি দেখাতে হবে।
+
+// indxx হলো বর্তমান বাসের ইনডেক্স, যা getBus.map লুপ থেকে পাওয়া গেছে।
+// যদি visibility[indxx] সত্য হয়, তাহলে শর্তটির পরের অংশ(সিট প্ল্যানিং সেকশন) রেন্ডার হবে।
+// && অপারেটর:
+
+// visibility[indxx] সত্য হলে → সিট প্ল্যানিং সেকশনটি রেন্ডার হবে।
+// visibility[indxx] মিথ্যা হলে → সিট প্ল্যানিং সেকশনটি স্কিপ করবে।
+// কোন indxx ব্যবহার করা হয়েছে ?
+//     indxx হলো getBus.map লুপের বর্তমান ইনডেক্স।
+// getBus অ্যারে ধরে একটি নির্দিষ্ট বাসকে রেন্ডার করা হচ্ছে।
+// প্রতিটি বাসের জন্য:
+// indxx এর মান প্রথম বাসের জন্য 0, দ্বিতীয় বাসের জন্য 1, এবং এভাবে বাড়তে থাকে।
+// উদাহরণ:
+// ধরি, visibility স্টেট হলো:
+
+// javascript
+// Copy code
+// visibility = [false, true, false];
+// এখন getBus.map লুপ চালু হলে:
+
+// প্রথম বাস(indxx = 0):
+
+// visibility[0] && ...
+// false && ... → সিট প্ল্যানিং সেকশন রেন্ডার হবে না।
+// দ্বিতীয় বাস(indxx = 1):
+
+// visibility[1] && ...
+// true && ... → সিট প্ল্যানিং সেকশন রেন্ডার হবে।
+// তৃতীয় বাস(indxx = 2):
+
+// visibility[2] && ...
+// false && ... → সিট প্ল্যানিং সেকশন রেন্ডার হবে না।
+// সংক্ষেপে:
+// visibility[indxx] চেক করছে, বর্তমান ইনডেক্সের(বাসের) জন্য সিট প্ল্যানিং সেকশনটি দেখাতে হবে কি না।
+// indxx হলো getBus.map লুপের ইনডেক্স, যা প্রতিটি বাসকে রেন্ডার করার জন্য ব্যবহৃত হয়েছে।
+
+
+
+// (10) ==> এখানে কিন্তু আগেরটার মতন toggle করতে চাচ্ছি এটা করা হয়েছে শধু অই cross btn এর জন্য এখানে শুধু অটাতে ক্লিক করলে শুধু কণ কিছু করতে চাচ্ছি  তাই এখানে(i === indxx ? false : visible) শুধু false করা হয়েছে
