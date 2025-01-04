@@ -1,0 +1,5 @@
+@media only screen and (max-width: 840px){
+    .seatinfo_and_fare_sec_cus {
+        flex-direction: column;
+    }
+}
