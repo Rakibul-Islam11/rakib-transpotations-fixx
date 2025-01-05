@@ -186,7 +186,7 @@ const BusSeatPlan = ({ leavCity, deperCity, data }) => {
                                                                 onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
                                                                 key={sinSeat}
                                                                 style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                                className={`w-9 hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
+                                                                className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
 
                                                             >
                                                                 {sinSeat}
@@ -200,7 +200,7 @@ const BusSeatPlan = ({ leavCity, deperCity, data }) => {
                                                                 onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
                                                                 key={sinSeat}
                                                                 style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                                className={`w-9 hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
+                                                                className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
 
                                                             >
                                                                 {sinSeat}
@@ -215,7 +215,7 @@ const BusSeatPlan = ({ leavCity, deperCity, data }) => {
                                                                 onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
                                                                 key={sinSeat}
                                                                 style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                                className={`w-9 hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
+                                                                className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
 
                                                             >
                                                                 {sinSeat}
@@ -228,7 +228,7 @@ const BusSeatPlan = ({ leavCity, deperCity, data }) => {
                                                                 onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
                                                                 key={sinSeat}
                                                                 style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                                className={`w-9 hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
+                                                                className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
 
                                                             >
                                                                 {sinSeat}
