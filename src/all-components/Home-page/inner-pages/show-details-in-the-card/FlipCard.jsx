@@ -10,7 +10,7 @@ const FlipCard = () => {
     ];
 
     return (
-        <div className="flex justify-center md:justify-between gap-1 md:gap-6 pt-2 flex-wrap xl:flex-nowrap  w-[96%] md:w-10/12 mx-auto bg-white px-1 md:px-8 custome_class_flip">
+        <div className="flex justify-center md:justify-between gap-1 md:gap-6 pt-2 flex-wrap xl:flex-nowrap  w-[100%] mx-auto bg-white px-1 md:px-8 custome_class_flip ">
             {cards.map((card) => (
                 <div key={card.id} className="card-container group">
                     <div className="card-content">

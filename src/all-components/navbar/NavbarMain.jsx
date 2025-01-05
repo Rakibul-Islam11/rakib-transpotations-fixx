@@ -3,6 +3,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import imgcentrbrand from '../../assets/imgages/centerbrand.png'
 import { FaFacebookSquare } from "react-icons/fa";
 import { Link, useLocation } from 'react-router-dom';
+import './navbarmain.css'
 const navigation = [
     { name: 'HOME', to: '/', current: true },//এখানে শুধু / মানে homepage বুঝায় roter এ
     { name: 'SERVICE', to: '/service', current: false },
@@ -19,7 +20,7 @@ function classNames(...classes) {
 export default function NavbarMain() {
     const location = useLocation();// এটা দিয়ে current route trac করা হয়েছে
     return (
-        <div className='w-[96%] md:w-10/12 mx-auto'>
+        <div className='w-[100%] '>
             <Disclosure as="nav" className="bg-[#cc0000]">
                 <div className="mx-auto max-w-7xl px-2 ">
                     <div className="relative flex h-16 items-center justify-between">

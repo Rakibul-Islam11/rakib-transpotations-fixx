@@ -157,7 +157,7 @@ const BusSeatPlan = ({ leavCity, deperCity, data }) => {
                                 {/* available buss card end*/}
                                 {/* Seat planning section start*/}
                                 {visibility[indxx] && ( // (9)
-                                    <div className=" bg-white px-4 w-full">
+                                    <div className=" bg-white px-4 py-2 w-full">
                                         {/* Cross button */}
                                         <div className="flex">
                                             <span

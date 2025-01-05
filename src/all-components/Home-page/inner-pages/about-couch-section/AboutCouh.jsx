@@ -12,7 +12,7 @@ const AboutCouh = () => {
 
     const fullText = `${shortText} Onboard amenities include LED screens for entertainment, free Wi-Fi connectivity, and mobile charging ports at every seat. The buses are equipped with GPS tracking for enhanced safety and real-time updates. Clean and hygienic restrooms are provided for convenience. Professional and courteous staff ensure excellent customer service. Punctuality is a hallmark, minimizing delays and maximizing satisfaction. Luxury-class options feature additional comforts like plush seating and complementary snacks. Regular maintenance keeps the fleet in top-notch condition, emphasizing passenger safety. Affordable pricing makes Rakib Transportation accessible to a wide range of travelers. For premium travel solutions with reliability and comfort, Rakib Transportation is a top choice.`;
     return (
-        <div className="w-[96%] md:w-10/12 mx-auto bg-white px-1 md:px-2 for_appy_aboout_couch_font">
+        <div className="w-[100%] bg-white px-1 md:px-2 for_appy_aboout_couch_font ">
             <div>
                 <h1 className="text-center text-2xl text-slate-500 for_use_font_class pt-4 font-bold">WELCOME TO RAKIB Couch</h1>
                 <div>

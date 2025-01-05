@@ -7,6 +7,7 @@ import LocationSlec from './inner-pages/location-selct-section/LocationSlec';
 import AboutCouh from './inner-pages/about-couch-section/AboutCouh';
 import BrandMarque from './inner-pages/brand-marque-section/BrandMarque';
 import FlipCard from './inner-pages/show-details-in-the-card/FlipCard';
+import './homepage.css'
 
 const HomePage = () => {
     const reciveApiData = useLoaderData(); // (1)
@@ -17,9 +18,9 @@ const HomePage = () => {
     };
 
     return (
-        <div className="relative"> {/* প্যারেন্ট div-এ relative */}
+        <div className="relativ w-[96%] md:w-10/12 mx-auto shadow-[0_12px_15px_1px_rgba(0,0,0,1)]"> {/* প্যারেন্ট div-এ relative */}
             {/* video cover section  */}
-            <div className="w-[96%] md:w-10/12 mx-auto relative"> {/* ভিডিও কন্টেইনারে relative */}
+            <div className="w-[100%] relative "> {/* ভিডিও কন্টেইনারে relative */}
                 <div
                     className="aspect-[16/23] md:aspect-[16/7]"
                     style={{

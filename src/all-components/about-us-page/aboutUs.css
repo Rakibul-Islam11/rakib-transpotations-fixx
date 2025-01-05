@@ -5,3 +5,8 @@
   font-optical-sizing: auto;
   
 }
+.left_sdo {
+    box-shadow: 15px 11px 16px -3px rgb(0, 0, 0);
+    box-shadow: -15px 4px 20px -12px rgba(0, 0, 0, 1); 
+}
+

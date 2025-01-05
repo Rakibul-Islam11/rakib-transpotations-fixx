@@ -59,7 +59,7 @@ const LocationSlec = ({ reciveApiData }) => {
                     {/* Leaving City */}
                     <div className="flex flex-col">
                         <div className='flex flex-row items-center gap-1 pb-1'>
-                            <label htmlFor="leavingCity" className="text-gray-700 text-[14px] md:font-medium md:mb-2">
+                            <label htmlFor="leavingCity" className="text-gray-700 text-[14px]  font-bold md:mb-2">
                                 LEAVING CITY
                             </label>
                             <div className='block md:hidden'>
@@ -99,7 +99,7 @@ const LocationSlec = ({ reciveApiData }) => {
                     {/* Departing City */}
                     <div className="flex flex-col">
                         <div className='flex flex-row items-center gap-1 pb-1'>
-                            <label htmlFor="departingCity" className="text-gray-700 font-medium text-[14px] md:mb-2">
+                            <label htmlFor="departingCity" className="text-gray-700 font-bold text-[14px] md:mb-2">
                                 DEPARTING CITY
                             </label>
                             <div className='block md:hidden '>
@@ -140,7 +140,7 @@ const LocationSlec = ({ reciveApiData }) => {
                     {/* Date Picker */}
                     <div className="flex flex-col ">
                         <div className='flex flex-row items-center gap-2 pb-1'>
-                            <label htmlFor="datePicker" className="text-gray-700 text-[14px] font-medium md:mb-2 ">
+                            <label htmlFor="datePicker" className="text-gray-700 text-[14px] font-bold md:mb-2 ">
                                 TRAVEL DATE
 
                             </label>

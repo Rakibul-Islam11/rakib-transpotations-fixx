@@ -4,7 +4,7 @@ import '../globle-css/globle.css'
 
 const TopMiniNav = () => {
     return (
-        <div className="w-[96%] md:w-10/12 mx-auto bg-white for_use_font py-3">
+        <div className="w-[100%] bg-white for_use_font py-3 ">
             <div className="flex flex-row justify-between items-center gap-2 md:gap-4 px-2 md:px-4">
                 <div className="w-[268px] text-blue-600 font-bold text-md md:text-lg">
                     <a href="tel:01736600480">Helpline: 01736600480</a>

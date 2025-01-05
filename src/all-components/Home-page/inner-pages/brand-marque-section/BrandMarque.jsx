@@ -5,9 +5,10 @@ import scina from '../../../../assets/branf-img-for-marque/scina.svg'
 import imgee from '../../../../assets/branf-img-for-marque/imgne.png'
 import isu from '../../../../assets/branf-img-for-marque/Isuzu.svg'
 import toyo from '../../../../assets/branf-img-for-marque/Toyota.svg'
+import './brandMerque.css'
 const BrandMarque = () => {
     return (
-        <div className="w-[96%] md:w-10/12 mx-auto bg-white px-1 md:px-2">
+        <div className="w-[100%]  bg-white px-1 md:px-2 ">
             
             <div className='bg-white pt-8 '>
                 <div>
