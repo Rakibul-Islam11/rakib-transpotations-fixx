@@ -25,7 +25,6 @@ const router = createBrowserRouter([
       {
         index: true,
         loader: async () => {
-          // Fetching locations and cities data together
           const locationsResponse = await fetch('/Locations.json');
           const locations = await locationsResponse.json();
 
@@ -39,28 +38,30 @@ const router = createBrowserRouter([
       {
         path: '/home/:citySlug',
         loader: async ({ params }) => {
-          const response = await fetch('/cities.json'); // Fetching cities data
+          const response = await fetch('/cities.json');
           const cities = await response.json();
+          const slugName = params.citySlug.toLowerCase();
 
-          const slugName = params.citySlug.toLowerCase(); // Extracting slug from URL
-
-          // Filtering city by slug
-          const city = cities.find((city) =>
-            city.name.toLowerCase().replace(/ /g, '-') === slugName
+          const city = cities.find(
+            (city) => city.name.toLowerCase().replace(/ /g, '-') === slugName
           );
 
           if (!city) {
             throw new Response('City not found', { status: 404 });
           }
 
-          return city; // Returning city data
+          return city;
         },
         element: <ShowCounter></ShowCounter>,
       },
-      {
-        path: '/',
-        element: <HomePage></HomePage>,
-      },
+      // {
+      //   path: '/home/route-map',
+      //   element: <RouteMapPage />, // Add your route map component
+      // },
+      // {
+      //   path: '/home/query',
+      //   element: <QueryPage />, // Add your query component
+      // },
       {
         path: 'bus-select',
         loader: () => fetch('locationRoute&Fare.json'),
@@ -93,6 +94,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 
 
 createRoot(document.getElementById('root')).render(
