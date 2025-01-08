@@ -5,3 +5,8 @@
         background-position: 46% -29% !important;
     }
 }
+@media only screen and (max-width: 768px) {
+    .for_bg_img_setup {
+        height: fit-content !important;
+    }
+}
