@@ -71,7 +71,7 @@ const router = createBrowserRouter([
         element: <LocationSlec></LocationSlec>,
       },
       {
-        path: 'about-us',
+        path: 'aboutus',
         element: <AboutUs></AboutUs>,
       },
       {
