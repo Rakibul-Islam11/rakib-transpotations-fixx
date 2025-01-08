@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "New York",
+    "email": "contact@newyork.com",
+    "phone": "123-456-7890",
+    "website": "www.newyork.com"
+  },
+  {
+    "id": 2,
+    "name": "Los Angeles",
+    "email": "contact@losangeles.com",
+    "phone": "987-654-3210",
+    "website": "www.losangeles.com"
+  },
+  {
+    "id": 3,
+    "name": "Chicago",
+    "email": "contact@chicago.com",
+    "phone": "456-123-7890",
+    "website": "www.chicago.com"
+  },
+  {
+    "id": 4,
+    "name": "Houston",
+    "email": "contact@houston.com",
+    "phone": "789-456-1230",
+    "website": "www.houston.com"
+  },
+  {
+    "id": 5,
+    "name": "Phoenix",
+    "email": "contact@phoenix.com",
+    "phone": "321-654-9870",
+    "website": "www.phoenix.com"
+  },
+  {
+    "id": 6,
+    "name": "San Antonio",
+    "email": "contact@sanantonio.com",
+    "phone": "654-987-3210",
+    "website": "www.sanantonio.com"
+  },
+  {
+    "id": 7,
+    "name": "San Diego",
+    "email": "contact@sandiego.com",
+    "phone": "987-321-6540",
+    "website": "www.sandiego.com"
+  },
+  {
+    "id": 8,
+    "name": "Dallas",
+    "email": "contact@dallas.com",
+    "phone": "123-789-4560",
+    "website": "www.dallas.com"
+  },
+  {
+    "id": 9,
+    "name": "San Jose",
+    "email": "contact@sanjose.com",
+    "phone": "321-456-9870",
+    "website": "www.sanjose.com"
+  },
+  {
+    "id": 10,
+    "name": "Austin",
+    "email": "contact@austin.com",
+    "phone": "456-789-1230",
+    "website": "www.austin.com"
+  }
+]
