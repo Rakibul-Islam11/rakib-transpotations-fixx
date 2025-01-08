@@ -5,12 +5,12 @@ import "flatpickr/dist/themes/material_green.css"; // Flatpickr এর থিম
 import { useNavigate } from 'react-router-dom';
 
 
-const LocationSlec = ({ reciveApiData }) => {
+const LocationSlec = ({ locations }) => {
     const [leavCity, setLeavCity] = useState("Select Leaving City");//leaving city stor state
     const [deperCity, setDeperCity] = useState("Select Destination City")//deper city stor state
     const [dateStor, setDateStor] = useState(null)// date stor state
     const [errors, setErrors] = useState({ leavCityError: false, deperCityError: false, dataError: null });//(1)
-    const { LeavingCities, DepurtingCities } = reciveApiData;
+    const { LeavingCities, DepurtingCities } = locations;
     const navigate = useNavigate()
 
     // leaving city handler
@@ -194,7 +194,7 @@ const LocationSlec = ({ reciveApiData }) => {
 };
 
 LocationSlec.propTypes = {
-    reciveApiData: PropTypes.object,
+    locations: PropTypes.object,
 };
 
 export default LocationSlec;

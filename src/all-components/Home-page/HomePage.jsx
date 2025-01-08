@@ -8,9 +8,12 @@ import AboutCouh from './inner-pages/about-couch-section/AboutCouh';
 import BrandMarque from './inner-pages/brand-marque-section/BrandMarque';
 import FlipCard from './inner-pages/show-details-in-the-card/FlipCard';
 import './homepage.css'
+import BusCounterLocation from './inner-pages/bus-counter-location/BusCounterLocation';
+
 
 const HomePage = () => {
-    const reciveApiData = useLoaderData(); // (1)
+    // const reciveApiData = useLoaderData(); // (1)
+    const { locations} = useLoaderData();
     const [isVideoLoaded, setIsVideoLoaded] = useState(false); //before ভিডিও লোডিং cover image স্টেট
 
     const handleVideoLoaded = () => { // (2)
@@ -94,7 +97,7 @@ const HomePage = () => {
                         zIndex: 2, // ভিডিওর উপরে দেখানোর জন্য
                     }}
                 >
-                    <LocationSlec reciveApiData={reciveApiData}></LocationSlec>
+                    <LocationSlec locations={locations}></LocationSlec>
                 </div>
                 
             </div>
@@ -107,7 +110,10 @@ const HomePage = () => {
             {/* flip card section start */}
             <FlipCard></FlipCard>
             {/* flip card section end */}
-            
+            {/* rander bus counter location component start */}
+            <BusCounterLocation></BusCounterLocation>
+            {/* rander bus counter location component end */}
+
 
         </div>
     );

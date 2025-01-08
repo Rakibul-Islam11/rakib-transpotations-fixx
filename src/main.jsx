@@ -13,6 +13,8 @@ import AlbumPgae from './all-components/album-page/AlbumPgae.jsx';
 import LocationSlec from './all-components/Home-page/inner-pages/location-selct-section/LocationSlec.jsx';
 import BusSelect from './all-components/seat-select-page/BusSelect.jsx';
 
+import ShowCounter from './all-components/Home-page/inner-pages/show-counter/ShowCounter.jsx';
+
 
 // রাউটারে যুক্ত করা
 const router = createBrowserRouter([
@@ -22,21 +24,51 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        loader: () => fetch('Locations.json'),
+        loader: async () => {
+          // Fetching locations and cities data together
+          const locationsResponse = await fetch('/Locations.json');
+          const locations = await locationsResponse.json();
+
+          const citiesResponse = await fetch('/cities.json');
+          const cities = await citiesResponse.json();
+
+          return { locations, cities };
+        },
         element: <HomePage></HomePage>,
       },
       {
-        path: '/',//মনে রাখবেন home page এর জন্য path / এভাবে দিবেন কোনো নাম দিবেন না
-        element: <HomePage></HomePage>
+        path: '/home/:citySlug',
+        loader: async ({ params }) => {
+          const response = await fetch('/cities.json'); // Fetching cities data
+          const cities = await response.json();
+
+          const slugName = params.citySlug.toLowerCase(); // Extracting slug from URL
+
+          // Filtering city by slug
+          const city = cities.find((city) =>
+            city.name.toLowerCase().replace(/ /g, '-') === slugName
+          );
+
+          if (!city) {
+            throw new Response('City not found', { status: 404 });
+          }
+
+          return city; // Returning city data
+        },
+        element: <ShowCounter></ShowCounter>,
       },
       {
-        path: 'bus-select',//not main nav menu's page
+        path: '/',
+        element: <HomePage></HomePage>,
+      },
+      {
+        path: 'bus-select',
         loader: () => fetch('locationRoute&Fare.json'),
-        element: <BusSelect></BusSelect>
+        element: <BusSelect></BusSelect>,
       },
       {
-        path: 'locationSlec', //not main nav menu's page
-        element: <LocationSlec></LocationSlec>
+        path: 'locationSlec',
+        element: <LocationSlec></LocationSlec>,
       },
       {
         path: 'about-us',
@@ -61,6 +93,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

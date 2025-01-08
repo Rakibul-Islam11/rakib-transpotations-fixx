@@ -5,7 +5,7 @@ import './aboutUs.css'
 import { Link } from 'react-router-dom';
 const AboutUs = () => {
     return (
-        <div className='w-[96%] md:w-10/12 mx-auto bg-white px-1 md:px-4 pt-6 md:pt-10 for_appy_aboout_couch_font_about shadow-[0_12px_15px_1px_rgba(0,0,0,1)]'>
+        <div className='w-[96%] md:w-10/12 mx-auto bg-white px-1 md:px-4 pt-6 md:pt-10  shadow-[0_12px_15px_1px_rgba(0,0,0,1)]'>
             
             <div className="">
                 <div className="text-slate-500 font-bold text-2xl"><h1>Company Profile</h1></div>
