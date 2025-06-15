@@ -1,19 +1,20 @@
- import { RxCross2 } from "react-icons/rx";
+import { RxCross2 } from "react-icons/rx";
 import { Snackbar } from "@mui/material";
-import Alert from "@mui/material/Alert"; // For styled toast
-import bgimg from '../../../../../assets/imgages/BbusBG.png'
+import Alert from "@mui/material/Alert";
+import bgimg from '../../../../../assets/imgages/BbusBG.png';
 import { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
-import './busseatplan.css'
+import './busseatplan.css';
 
 const leftSeat = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"];
 const leftSecondSeat = ["B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10"];
 const c1Seat = ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10"];
 const d1Seat = ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"];
+
 const BusSeatPlan = ({ leavCity, deperCity, data }) => {
     const appStyle = {
         backgroundImage: `url(${bgimg})`,
-        width: '262px',
+        width: '250px',
         height: '568px',
         backgroundRepeat: 'no-repeat',
         backgroundPositionX: '44%',
@@ -24,59 +25,66 @@ const BusSeatPlan = ({ leavCity, deperCity, data }) => {
         borderLeft: '2px solid white',
         borderRight: '2px solid white',
     };
-    const [visibility, setVisibility] = useState([]); // Visibility state
-    // const [selectedSeats, setSelectedSeats] = useState([]);
-    const [selectedSeats, setSelectedSeats] = useState({});
-    
 
-    const [openToast, setOpenToast] = useState(false); // State to manage Snackbar visibility
+    const [visibility, setVisibility] = useState([]);
+    const [selectedSeats, setSelectedSeats] = useState({});
+    const [openToast, setOpenToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
+    const [formData, setFormData] = useState({
+        mobile: "",
+        email: "",
+        fullName: "",
+        gender: "Male",
+        agreeTerms: true // Default checked
+    });
+    const [formErrors, setFormErrors] = useState({
+        mobile: "",
+        email: "",
+        fullName: "",
+        gender: "",
+        agreeTerms: ""
+    });
+
     const getBus = data[leavCity][deperCity].buses;
-    console.log(getBus);
-    
-    // এখন এখানে যদি api তে bus সংখা বাড়ায় তাহলে যেনো এখানে সেটা auto update হয়ে যায় এজন্য useEffect করা হয়েছে
+
     useEffect(() => {
-        const initialVisibility = Array(getBus.length).fill(false); //(4)
+        const initialVisibility = Array(getBus.length).fill(false);
         setVisibility(initialVisibility);
     }, [getBus]);
 
-    //select seat button toggle fn
     const toggleVisibility = (indxx) => {
         setVisibility(prev => (
-            prev.map((visible, i) => (i === indxx ? !visible : visible))//(2)(6)
+            prev.map((visible, i) => (i === indxx ? !visible : visible))
         ))
     }
-    // cross button fn
-    const handleCrossBTN = (indxx) => {//(3)
+
+    const handleCrossBTN = (indxx) => {
         setVisibility(prevVisibility =>
-            prevVisibility.map((visible, i) => (i === indxx ? false : visible))//(10)
+            prevVisibility.map((visible, i) => (i === indxx ? false : visible))
         );
     };
 
-    const seatSelectHandler = (busId, sinSeat) => {//(0091)
-        setSelectedSeats((prev) => {//মনে রাখবেন এখানে prev দিয়ে state এর সব ডাটা ধরা হচ্ছে
-            // আগের সিটগুলো বের করুন
-            const currentSeats = prev[busId] || [];//(001) 
+    const seatSelectHandler = (busId, sinSeat) => {
+        setSelectedSeats((prev) => {
+            const currentSeats = prev[busId] || [];
 
-            // সিট আগে থেকে সিলেক্ট করা থাকলে তা সরান
             if (currentSeats.includes(sinSeat)) {
                 return {
-                    ...prev, [busId]: currentSeats.filter((seat) => seat !== sinSeat),// (002)
+                    ...prev, [busId]: currentSeats.filter((seat) => seat !== sinSeat),
                 };
             }
-            // সিট লিমিট চেক করুন, যদি ৪ এর বেশি হয়
             if (currentSeats.length >= 4) {
-                setOpenToast(true); // নোটিফিকেশন দেখান
+                setToastMessage("You can select up to 4 seats only!");
+                setOpenToast(true);
                 return prev;
             }
 
-            // নতুন সিট সিলেক্ট করুন
             return {
                 ...prev, [busId]: [...currentSeats, sinSeat],
             };
         });
     };
 
-    //remove from the cart
     const removeSeatFromCart = (busId, seat) => {
         setSelectedSeats((prev) => ({
             ...prev,
@@ -84,16 +92,13 @@ const BusSeatPlan = ({ leavCity, deperCity, data }) => {
         }));
     };
 
-    //handle toast
     const handleCloseToast = () => {
         setOpenToast(false);
     }
-    // Total fare calculation function
-    // Total fare calculation function
+
     const calculateTotalFare = (busId) => {
-        const selectedSeatsForBus = selectedSeats[busId] || []; // সিলেক্টেড সিট গুলো বের করা
+        const selectedSeatsForBus = selectedSeats[busId] || [];
         if (!selectedSeatsForBus.length) {
-            // যদি কোনো সিট সিলেক্ট না করা হয়
             return {
                 totalFare: 0,
                 processFee: 0,
@@ -102,10 +107,10 @@ const BusSeatPlan = ({ leavCity, deperCity, data }) => {
             };
         }
 
-        const bus = getBus.find(bus => bus.busId === busId); // সঠিক বাস বের করা
-        const totalFare = selectedSeatsForBus.length * bus.fare; // সিট সংখ্যা × বাস ভাড়া
-        const processFee = 25; // ফিক্সড প্রসেসিং ফি
-        const bankCharge = 0; // ফিক্সড ব্যাংক চার্জ
+        const bus = getBus.find(bus => bus.busId === busId);
+        const totalFare = selectedSeatsForBus.length * bus.fare;
+        const processFee = 25;
+        const bankCharge = 0;
         const totalAmount = totalFare + processFee + bankCharge;
 
         return {
@@ -116,320 +121,363 @@ const BusSeatPlan = ({ leavCity, deperCity, data }) => {
         };
     };
 
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value
+        });
+    };
+
+    const validateForm = (busId) => {
+        const errors = {};
+        let isValid = true;
+
+        // Check if at least one seat is selected
+        if (!selectedSeats[busId] || selectedSeats[busId].length === 0) {
+            setToastMessage("Please select at least one seat");
+            setOpenToast(true);
+            isValid = false;
+        }
+
+        // Validate mobile number
+        if (!formData.mobile.trim()) {
+            errors.mobile = "Mobile number is required";
+            isValid = false;
+        } else if (!/^01[3-9]\d{8}$/.test(formData.mobile)) {
+            errors.mobile = "Please enter a valid Bangladeshi mobile number";
+            isValid = false;
+        }
+
+        // Validate email
+        if (!formData.email.trim()) {
+            errors.email = "Email is required";
+            isValid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            errors.email = "Please enter a valid email address";
+            isValid = false;
+        }
+
+        // Validate full name
+        if (!formData.fullName.trim()) {
+            errors.fullName = "Full name is required";
+            isValid = false;
+        }
+
+        // Validate terms agreement
+        if (!formData.agreeTerms) {
+            errors.agreeTerms = "You must agree to the terms and conditions";
+            isValid = false;
+        }
+
+        setFormErrors(errors);
+        return isValid;
+    };
+
+    const handlePayment = (busId) => {
+        if (validateForm(busId)) {
+            // Proceed with payment
+            alert("Proceeding to payment...");
+            // Here you would typically redirect to payment page or show payment options
+        }
+    };
 
     return (
         <div>
             <div>
-                {/* looping for get each busses */}
-                {
-                    getBus.map((singleBus, indxx) => (
-                        <div key={indxx}>
-                            <div>
-                                {/* available buss card start*/}
-                                <div className=" flex flex-row justify-between items-center px-2 py-6 mx-auto bg-white border border-black">
-                                    <div>
-                                        <h1 className="font-bold text-[#656060]">
-                                            RAKIB TR <sup className="text-[10px]">TM</sup>
-                                        </h1>
-                                        <p className="text-[12px] md:text-md text-[#656060]">
-                                            Bus ID: {singleBus.busId}
-                                        </p>
-                                        <p className="italic text-[12px] md:text-md text-[#656060]">
-                                            Class: {singleBus.class}
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col md:flex-row md:gap-3 items-center">
-                                        <p>Time:</p>
-                                        <p className="text-sm md:text-md text-[#656060]">
-                                            {singleBus.time}
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col justify-end items-end gap-2">
-                                        <p>{singleBus.fare}(tk)</p>
-                                        <button
-                                            onClick={() => toggleVisibility(indxx)}
-                                            className="px-2 md:px-4 py-1 md:py-1 bg-blue-600 text-sm md:text-md text-white"
+                {getBus.map((singleBus, indxx) => (
+                    <div key={indxx}>
+                        <div>
+                            <div className="flex flex-row justify-between items-center px-2 py-6 mx-auto bg-white border border-black">
+                                <div>
+                                    <h1 className="font-bold text-[#656060]">
+                                        RAKIB TR <sup className="text-[10px]">TM</sup>
+                                    </h1>
+                                    <p className="text-[12px] md:text-md text-[#656060]">
+                                        Bus ID: {singleBus.busId}
+                                    </p>
+                                    <p className="italic text-[12px] md:text-md text-[#656060]">
+                                        Class: {singleBus.class}
+                                    </p>
+                                </div>
+                                <div className="flex flex-col md:flex-row md:gap-3 items-center">
+                                    <p>Time:</p>
+                                    <p className="text-sm md:text-md text-[#656060]">
+                                        {singleBus.time}
+                                    </p>
+                                </div>
+                                <div className="flex flex-col justify-end items-end gap-2">
+                                    <p>{singleBus.fare}(tk)</p>
+                                    <button
+                                        onClick={() => toggleVisibility(indxx)}
+                                        className="px-2 md:px-4 py-1 md:py-1 bg-blue-600 text-sm md:text-md text-white"
+                                    >
+                                        {visibility[indxx] ? 'Hide Seats' : 'Select Seat'}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {visibility[indxx] && (
+                                <div className="bg-white px-4 py-2 w-full">
+                                    <div className="flex">
+                                        <span
+                                            onClick={() => handleCrossBTN(indxx)}
+                                            className="ms-auto cursor-pointer text-2xl"
                                         >
-                                            {visibility[indxx] ? 'Hide Seats' : 'Select Seat'}
-                                        </button>
+                                            <RxCross2 />
+                                        </span>
+                                    </div>
+
+                                    <div className='flex flex-col gap-4 lg:flex-row items-center lg:items-start'>
+                                        <div style={appStyle} className="w-1/3 flex flex-row gap-[50px] items-end justify-center pb-4 text-[#656060] shadow-[0_4px_15px_1px_rgba(0,0,0,1)]">
+                                            <div className="flex flex-row pt-28 gap-3">
+                                                <div className="flex flex-col gap-2">
+                                                    {leftSeat.map((sinSeat) => (
+                                                        <button
+                                                            onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
+                                                            key={sinSeat}
+                                                            style={{ borderRadius: '15px 15px 7px 7px' }}
+                                                            className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
+                                                        >
+                                                            {sinSeat}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                                <div className="flex flex-col gap-2">
+                                                    {leftSecondSeat.map((sinSeat) => (
+                                                        <button
+                                                            onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
+                                                            key={sinSeat}
+                                                            style={{ borderRadius: '15px 15px 7px 7px' }}
+                                                            className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
+                                                        >
+                                                            {sinSeat}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-row pt-28 gap-3">
+                                                <div className="flex flex-col gap-2">
+                                                    {c1Seat.map((sinSeat) => (
+                                                        <button
+                                                            onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
+                                                            key={sinSeat}
+                                                            style={{ borderRadius: '15px 15px 7px 7px' }}
+                                                            className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
+                                                        >
+                                                            {sinSeat}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                                <div className="flex flex-col gap-2">
+                                                    {d1Seat.map((sinSeat) => (
+                                                        <button
+                                                            onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
+                                                            key={sinSeat}
+                                                            style={{ borderRadius: '15px 15px 7px 7px' }}
+                                                            className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
+                                                        >
+                                                            {sinSeat}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-col items-center w-full md:w-[74.66%] gap-2 md:gap-8">
+                                            <div className="">
+                                                <div className='mb-0 md:mb-2'>
+                                                    <p className='text-justify font-bold text-sm sm:text-[16px]'> White Colored Seats Are Available For You. Click Once on which Seat You want to reserve. You Can Buy Maximum 4 Seats at a time. When you select a seat you will get 2 minutes to go for payment. When you go for payment you will get 10 minutes to complete the payment.</p>
+                                                </div>
+                                                <div className="flex flex-row w-full gap-2 sm:pt-1 pt-2 seatinfo_and_fare_sec_cus">
+                                                    <div className="flex-1 h-fit min-h-[198px] border border-gray-300 rounded-md bg-white">
+                                                        <table className="w-full border-collapse">
+                                                            <thead>
+                                                                <tr className="bg-gray-100 border-b border-gray-300 text-[16px]">
+                                                                    <th className="py-2 px-2 lg:px-4 font-semibold">Seats</th>
+                                                                    <th className="py-2 px-2 lg:px-4 font-semibold">Fare</th>
+                                                                    <th className="py-2 px-2 lg:px-4 font-semibold">Class</th>
+                                                                    <th className="py-2 px-2 lg:px-4 font-semibold">Cancel</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {selectedSeats[singleBus.busId]?.map((seat) => (
+                                                                    <tr key={seat} className="bg-white border-b border-gray-200 text-center">
+                                                                        <td className="py-2 px-2 lg:px-4">{seat}</td>
+                                                                        <td className="py-2 px-2 lg:px-4">{singleBus.fare}</td>
+                                                                        <td className="py-2 px-2 lg:px-4">{singleBus.class}</td>
+                                                                        <td className="py-2 px-2 lg:px-4">
+                                                                            <button
+                                                                                className="text-red-500 hover:scale-125 transition-transform duration-300"
+                                                                                onClick={() => removeSeatFromCart(singleBus.busId, seat)}
+                                                                            >
+                                                                                ✕
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <div className="flex-1 h-fit p-4 bg-white border border-gray-300 rounded-md">
+                                                        {(() => {
+                                                            const { totalFare, processFee, bankCharge, totalAmount } = calculateTotalFare(singleBus.busId);
+                                                            return (
+                                                                <>
+                                                                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                                                                        <span className="text-gray-600 font-medium">Total Fare:</span>
+                                                                        <span className="text-gray-800 font-semibold">{totalFare} BDT</span>
+                                                                    </div>
+                                                                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                                                                        <span className="text-gray-600 font-medium">Process Fee:</span>
+                                                                        <span className="text-gray-800 font-semibold">{processFee} BDT</span>
+                                                                    </div>
+                                                                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                                                                        <span className="text-gray-600 font-medium">Bank Charge:</span>
+                                                                        <span className="text-gray-800 font-semibold">{bankCharge} BDT</span>
+                                                                    </div>
+                                                                    <div className="flex justify-between items-center py-2">
+                                                                        <span className="text-gray-600 font-medium">Total Amount:</span>
+                                                                        <span className="text-gray-800 font-semibold">{totalAmount} BDT</span>
+                                                                    </div>
+                                                                </>
+                                                            );
+                                                        })()}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="w-full">
+                                                <div className="w-[100%] mx-auto p-3 border rounded-md shadow-md ">
+                                                    <div className="grid md:grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label className="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded-t-sm mb-1">
+                                                                Mobile No.
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                name="mobile"
+                                                                value={formData.mobile}
+                                                                onChange={handleInputChange}
+                                                                placeholder="01XXXXXXXXX"
+                                                                className="block w-full border border-gray-300 px-3 py-2 rounded shadow-sm text-sm"
+                                                            />
+                                                            {formErrors.mobile && <p className="text-red-500 text-xs mt-1">{formErrors.mobile}</p>}
+                                                        </div>
+
+                                                        <div>
+                                                            <label className="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded-t-sm mb-1">
+                                                                Email Address
+                                                            </label>
+                                                            <input
+                                                                type="email"
+                                                                name="email"
+                                                                value={formData.email}
+                                                                onChange={handleInputChange}
+                                                                placeholder="abc@example.com"
+                                                                className="block w-full border border-gray-300 px-3 py-2 rounded shadow-sm text-sm"
+                                                            />
+                                                            {formErrors.email && <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>}
+                                                        </div>
+
+                                                        <div>
+                                                            <label className="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded-t-sm mb-1">
+                                                                Full Name
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                name="fullName"
+                                                                value={formData.fullName}
+                                                                onChange={handleInputChange}
+                                                                placeholder="MR. XYZ"
+                                                                className="block w-full border border-gray-300 px-3 py-2 rounded shadow-sm text-sm"
+                                                            />
+                                                            {formErrors.fullName && <p className="text-red-500 text-xs mt-1">{formErrors.fullName}</p>}
+                                                        </div>
+
+                                                        <div>
+                                                            <label className="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded-t-sm mb-1">
+                                                                Gender
+                                                            </label>
+                                                            <select
+                                                                name="gender"
+                                                                value={formData.gender}
+                                                                onChange={handleInputChange}
+                                                                className="block w-full border border-gray-300 px-3 py-2 rounded shadow-sm text-sm"
+                                                            >
+                                                                <option>Male</option>
+                                                                <option>Female</option>
+                                                                <option>Other</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="mt-4">
+                                                        <label className="inline-flex items-center">
+                                                            <input
+                                                                type="checkbox"
+                                                                name="agreeTerms"
+                                                                checked={formData.agreeTerms}
+                                                                onChange={handleInputChange}
+                                                                className="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                                                            />
+                                                            <span className="ml-2 text-sm text-gray-700">
+                                                                I agree to the{" "}
+                                                                <a href="#" className="text-indigo-600 hover:underline">
+                                                                    Terms and Conditions
+                                                                </a>{" "}
+                                                                and{" "}
+                                                                <a href="#" className="text-indigo-600 hover:underline">
+                                                                    Cancel Policy
+                                                                </a>
+                                                            </span>
+                                                        </label>
+                                                        {formErrors.agreeTerms && <p className="text-red-500 text-xs mt-1">{formErrors.agreeTerms}</p>}
+                                                    </div>
+
+                                                    <div className="mt-2 flex justify-end space-x-4">
+                                                        <button onClick={() => handleCrossBTN(indxx)} className="px-5 py-2 bg-red-500 text-white rounded-tr-xl rounded-bl-xl shadow hover:bg-red-600 transition">
+                                                            Cancel
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handlePayment(singleBus.busId)}
+                                                            className="px-5 py-2 bg-purple-800 text-white rounded-tl-xl rounded-br-xl shadow hover:bg-purple-900 transition"
+                                                        >
+                                                            Payment Method
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                {/* available buss card end*/}
-                                {/* Seat planning section start*/}
-                                {visibility[indxx] && ( // (9)
-                                    <div className=" bg-white px-4 py-2 w-full">
-                                        {/* Cross button */}
-                                        <div className="flex">
-                                            <span
-                                                onClick={() => handleCrossBTN(indxx)}
-                                                className="ms-auto cursor-pointer text-2xl"
-                                            >
-                                                <RxCross2 />
-                                            </span>
-                                        </div>
-
-                                        <div className='flex flex-col gap-4 lg:flex-row items-center lg:items-start'>
-                                            {/* refresh button  */}
-                                            {/* <div className='absolute left-[7.5%] top-[0.9%]'>
-                                                <button className='custom-button shadow-2xl'>
-                                                    Refresh
-                                                </button>
-                                            </div> */}
-
-
-                                            <div style={appStyle} className="w-1/3 flex flex-row gap-[54px]  items-end justify-center pb-4  text-[#656060] shadow-[0_4px_15px_1px_rgba(0,0,0,1)]">
-                                                <div className="flex flex-row pt-28 gap-3">
-                                                    <div className="flex flex-col gap-2">
-
-                                                        {leftSeat.map((sinSeat) => (
-                                                            <button
-                                                                onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
-                                                                key={sinSeat}
-                                                                style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                                className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
-
-                                                            >
-                                                                {sinSeat}
-                                                            </button>
-                                                        ))}
-
-                                                    </div>
-                                                    <div className="flex flex-col gap-2">
-                                                        {leftSecondSeat.map((sinSeat) => (
-                                                            <button
-                                                                onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
-                                                                key={sinSeat}
-                                                                style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                                className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
-
-                                                            >
-                                                                {sinSeat}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-row pt-28 gap-3">
-                                                    <div className="flex flex-col gap-2">
-                                                        {c1Seat.map((sinSeat) => (
-                                                            <button
-                                                                onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
-                                                                key={sinSeat}
-                                                                style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                                className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
-
-                                                            >
-                                                                {sinSeat}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                    <div className="flex flex-col gap-2">
-                                                        {d1Seat.map((sinSeat) => (
-                                                            <button
-                                                                onClick={() => seatSelectHandler(singleBus.busId, sinSeat)}
-                                                                key={sinSeat}
-                                                                style={{ borderRadius: '15px 15px 7px 7px' }}
-                                                                className={`w-9 md:hover:bg-green-500 h-9 shadow-[0_4px_15px_1px_rgba(0,0,0,1)] font-bold text-sm seatBTN ${selectedSeats[singleBus.busId]?.includes(sinSeat) ? "bg-gray-600" : "bg-white"} text-black`}
-
-                                                            >
-                                                                {sinSeat}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div className="flex flex-col items-center w-full md:w-[74.66%] gap-2 md:gap-16">
-                                                <div>
-                                                    <div className=' '>
-                                                        <p className=' text-justify font-bold text-sm sm:text-[16px]'> White Colored Seats Are Available For You. Click Once on which Seat You want to reserve. You Can Buy Maximum 4 Seats at a time. When you select a seat you will get 2 minutes to go for payment. When you go for payment you will get 10 minutes to complete the payment.</p>
-                                                    </div>
-                                                    <div className="flex flex-row w-full gap-2 sm:pt-1 pt-2 seatinfo_and_fare_sec_cus">
-                                                        {/* Cart section start */}
-                                                        <div className="flex-1 h-fit min-h-[198px] border border-gray-300 rounded-md bg-white">
-                                                            <table className="w-full border-collapse">
-                                                                <thead>
-                                                                    <tr className="bg-gray-100 border-b border-gray-300 text-[16px]">
-                                                                        <th className="py-2 px-2 lg:px-4 font-semibold">Seats</th>
-                                                                        <th className="py-2 px-2 lg:px-4 font-semibold">Fare</th>
-                                                                        <th className="py-2 px-2 lg:px-4 font-semibold">Class</th>
-                                                                        <th className="py-2 px-2 lg:px-4 font-semibold">Cancel</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {selectedSeats[singleBus.busId]?.map((seat) => (
-                                                                        <tr key={seat} className="bg-white border-b border-gray-200 text-center">
-                                                                            <td className="py-2 px-2 lg:px-4">{seat}</td>
-                                                                            <td className="py-2 px-2 lg:px-4">{singleBus.fare}</td>
-                                                                            <td className="py-2 px-2 lg:px-4">{singleBus.class}</td>
-                                                                            <td className="py-2 px-2 lg:px-4">
-                                                                                <button
-                                                                                    className="text-red-500 hover:scale-125 transition-transform duration-300"
-                                                                                    onClick={() => removeSeatFromCart(singleBus.busId, seat)}
-                                                                                >
-                                                                                    ✕
-                                                                                </button>
-                                                                            </td>
-                                                                        </tr>
-                                                                    ))}
-
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        {/* Cart section end */}
-
-                                                        {/* Fare Calculation */}
-                                                        <div className="flex-1 h-fit p-4 bg-white border border-gray-300 rounded-md">
-                                                            {(() => {
-                                                                const { totalFare, processFee, bankCharge, totalAmount } = calculateTotalFare(singleBus.busId);
-                                                                return (
-                                                                    <>
-                                                                        <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                                                                            <span className="text-gray-600 font-medium">Total Fare:</span>
-                                                                            <span className="text-gray-800 font-semibold">{totalFare} BDT</span>
-                                                                        </div>
-                                                                        <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                                                                            <span className="text-gray-600 font-medium">Process Fee:</span>
-                                                                            <span className="text-gray-800 font-semibold">{processFee} BDT</span>
-                                                                        </div>
-                                                                        <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                                                                            <span className="text-gray-600 font-medium">Bank Charge:</span>
-                                                                            <span className="text-gray-800 font-semibold">{bankCharge} BDT</span>
-                                                                        </div>
-                                                                        <div className="flex justify-between items-center py-2">
-                                                                            <span className="text-gray-600 font-medium">Total Amount:</span>
-                                                                            <span className="text-gray-800 font-semibold">{totalAmount} BDT</span>
-                                                                        </div>
-                                                                    </>
-                                                                );
-                                                            })()}
-                                                        </div>
-                                                        {/* Fare Calculation end*/}
-                                                    </div>
-                                                </div>
-                                                <div className="w-full">
-                                                    <div className="w-[100%] mx-auto p-3 border rounded-md shadow-md ">
-                                                        <div className="grid grid-rows md:grid-cols-2 gap-4">
-                                                            {/* Mobile No. */}
-                                                            <div>
-                                                                <label className="block text-sm font-bold text-gray-700">
-                                                                    Mobile No.
-                                                                </label>
-                                                                <input
-                                                                    type="text"
-                                                                    placeholder="01XXXXXXXXX"
-                                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                                />
-                                                            </div>
-
-                                                            {/* Email Address */}
-                                                            <div>
-                                                                <label className="block text-sm font-bold text-gray-700">
-                                                                    Email Address
-                                                                </label>
-                                                                <input
-                                                                    type="email"
-                                                                    placeholder="abc@example.com"
-                                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                                />
-                                                            </div>
-
-                                                            {/* Full Name */}
-                                                            <div>
-                                                                <label className="block text-sm font-bold text-gray-700">
-                                                                    Full Name
-                                                                </label>
-                                                                <input
-                                                                    type="text"
-                                                                    placeholder="MR. XYZ"
-                                                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                                />
-                                                            </div>
-
-                                                            {/* Gender */}
-                                                            <div>
-                                                                <label className="block text-sm font-bold text-gray-700">
-                                                                    Gender
-                                                                </label>
-                                                                <select className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                                    <option>Male</option>
-                                                                    <option>Female</option>
-                                                                    <option>Other</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Terms and Conditions */}
-                                                        <div className="mt-4">
-                                                            <label className="inline-flex items-center">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    className="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
-                                                                />
-                                                                <span className="ml-2 text-sm text-gray-700">
-                                                                    I agree to the{" "}
-                                                                    <a href="#" className="text-indigo-600 hover:underline">
-                                                                        Terms and Conditions
-                                                                    </a>{" "}
-                                                                    and{" "}
-                                                                    <a href="#" className="text-indigo-600 hover:underline">
-                                                                        Cancel Policy
-                                                                    </a>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-
-                                                        {/* Buttons */}
-                                                        <div className="mt-6 flex justify-end space-x-4">
-                                                            <button className="px-4 py-2 bg-red-500 text-white rounded-md shadow-sm hover:bg-red-600">
-                                                                Cancel
-                                                            </button>
-                                                            <button className="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700">
-                                                                Payment Method
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-
-
-                                        </div>
-                                    </div>
-                                )}
-                                {/* Seat planning section end*/}
-                            </div>
-
-                            <div>
-
-                            </div>
-
-
-                            {/* Toast (Snackbar) */}
-                            <Snackbar
-                                open={openToast}
-                                autoHideDuration={3000}
-                                onClose={handleCloseToast}
-                                anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                            >
-                                <Alert onClose={handleCloseToast} severity="warning" variant="filled">
-                                    You can select up to 4 seats only!
-                                </Alert>
-                            </Snackbar>
+                            )}
                         </div>
-                    ))
-                }
+
+                        <Snackbar
+                            open={openToast}
+                            autoHideDuration={3000}
+                            onClose={handleCloseToast}
+                            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                        >
+                            <Alert onClose={handleCloseToast} severity="warning" variant="filled">
+                                {toastMessage}
+                            </Alert>
+                        </Snackbar>
+                    </div>
+                ))}
             </div>
         </div>
     );
 };
+
 BusSeatPlan.propTypes = {
     leavCity: PropTypes.string,
     deperCity: PropTypes.string,
-    data: PropTypes.string
+    data: PropTypes.object
 }
-export default BusSeatPlan; 
+
+export default BusSeatPlan;
 
 // (001) ==> এখানে prev দিয়ে আমরা জানি এই state এর মদ্ধে যতো ভেলু আছে তা এই prev perameter দিয়ে ধরা যাবে তাহলে এখানে prev এর মদ্ধে সকল ভেলু প্রথমে বাস গুলি object আকারে থাকবে আর সেই প্রতিটা বাস object এর মদ্ধে সেই বাসের সিট গুলি array আকারে store হবে। তাহলে এখানে বলতে পারেন আমরা এই state এর মদ্ধে তো ভেলু গুলি object আকারে রাখতে সেট করেছি stae এর মদ্ধে initially object তাহলে তার মদ্ধে আবার সিট গুলি array আকারে কিভাবে থাখছে আর  এই array আকারে রাকা হচ্ছে নিছের এই ...prev, [busId]: [...currentSeats, sinSeat], এইটার মাদ্ধ্যমে এক্ষণ এখানে এই ...prev, [busId]: [...currentSeats, sinSeat], টার মদ্ধে প্রক্রিত আকারে কি হচ্ছে তা নিছে আলোচনা করা আছে আপনি শুধু এক্ষণ এখান থেকে এইটুকু বুঝেন যে এইটার মাদ্ধমে সিট গুলি array আকারে সেট হচ্ছে । তাহলে এখানে ডাটা যেভাবে সেট হচ্ছে দেখুন
 // {

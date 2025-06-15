@@ -16,7 +16,7 @@ const BusSelect = () => {
     const data = useLoaderData()//recieve api data
 
     return (
-        <div className="w-[96%] md:w-10/12 mx-auto">
+        <div className="w-[96%] md:w-10/12 mx-auto shadow-[0_12px_15px_1px_rgba(0,0,0,1)]">
             <div className=" bg-green-400 px-4 py-1">
                 <h1 className="text-lg md:text-2xl font-bold text-gray-600">Available Bus</h1>
                 <div className="flex flex-row flex-wrap items-center justify-start gap-1 md:gap-3">
